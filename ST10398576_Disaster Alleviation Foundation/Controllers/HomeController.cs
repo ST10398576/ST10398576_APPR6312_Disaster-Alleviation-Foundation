@@ -18,7 +18,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
