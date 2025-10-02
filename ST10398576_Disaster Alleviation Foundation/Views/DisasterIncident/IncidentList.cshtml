@@ -1,0 +1,27 @@
+﻿@model IEnumerable<DisasterIncident>
+
+<h2>Incident Reports</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Reported On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var incident in Model)
+        {
+            <tr>
+                <td>@incident.DisasterIncidentType</td>
+                <td>@incident.DisasterIncidentLocation</td>
+                <td>@incident.DisasterIncidentDescription</td>
+                <td>@incident.DisasterIncidentStatus</td>
+                <td>@incident.ReportDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

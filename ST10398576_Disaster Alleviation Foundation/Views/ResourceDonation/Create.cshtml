@@ -1,0 +1,35 @@
+﻿@model ResourceDonation
+
+<h2>Make a Donation</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Donation Type</label>
+        <select asp-for="ResourceDonationType" class="form-control">
+            <option>Cash</option>
+            <option>Goods</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ResourceDonationAmount"></label>
+        <input asp-for="ResourceDonationAmount" class="form-control" type="number" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ResourceItemDescription"></label>
+        <input asp-for="ResourceItemDescription" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ResourceDonationQuantity"></label>
+        <input asp-for="ResourceDonationQuantity" class="form-control" type="number" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ResourceDonationPaymentReference"></label>
+        <input asp-for="ResourceDonationPaymentReference" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Donate</button>
+</form>

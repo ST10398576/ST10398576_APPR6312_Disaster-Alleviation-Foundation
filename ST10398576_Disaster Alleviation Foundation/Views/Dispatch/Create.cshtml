@@ -1,0 +1,22 @@
+﻿@model Dispatch
+
+<h2>Dispatch Resources</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Project</label>
+        <select asp-for="ProjectID" asp-items="@(new SelectList(ViewBag.Projects, "ProjectID", "ProjectName"))" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Resource</label>
+        <select asp-for="ResourceID" asp-items="@(new SelectList(ViewBag.Resources, "ResourceID", "ResourceName"))" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="QuantityDispatched"></label>
+        <input asp-for="QuantityDispatched" class="form-control" type="number" />
+    </div>
+
+    <button type="submit" class="btn btn-warning">Dispatch</button>
+</form>
