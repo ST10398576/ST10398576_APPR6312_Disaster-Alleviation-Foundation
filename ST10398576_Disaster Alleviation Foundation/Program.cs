@@ -44,4 +44,11 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Redirect root ("/") to Register page
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Identity/Account/Register");
+    return Task.CompletedTask;
+});
+
 app.Run();

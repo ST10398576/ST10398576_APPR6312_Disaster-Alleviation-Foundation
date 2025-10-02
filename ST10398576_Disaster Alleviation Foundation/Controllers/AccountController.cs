@@ -62,7 +62,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return RedirectToAction("Index", "Home");
+                    return LocalRedirect("/Home/Index");
                 }
             }
             ModelState.AddModelError("", "Invalid login attempt.");
