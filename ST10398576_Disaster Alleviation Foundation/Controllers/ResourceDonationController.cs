@@ -6,27 +6,50 @@ using System;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
-    public class ResourceDonationController
+    public class ResourceDonationController: Controller
     {
         private readonly DRFoundationDbContext _context;
 
-        public ResourceDonationController(DRFoundationDbContext context) => _context = context;
+        public ResourceDonationController(DRFoundationDbContext context)
+        {
+            _context = context;
+        }
 
+        // GET: /ResourceDonation/Create
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ResourceDonation donation)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ResourceDonation resourceDonation)
         {
             if (ModelState.IsValid)
             {
-                _context.Donations.Add(donation);
+                _context.ResourceDonations.Add(resourceDonation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Thanks");
             }
-            return View(donation);
+
+            return View(resourceDonation);
         }
 
-        public IActionResult Thanks() => View();
+        // GET: /ResourceDonation/Thanks
+        public IActionResult Thanks()
+        {
+            return View();
+        }
+
+        // GET: /ResourceDonation/Index
+        public async Task<IActionResult> Index()
+        {
+            var donations = await _context.ResourceDonations
+                .Include(d => d.Donor)
+                .ToListAsync();
+
+            return View(donations);
+        }
     }
 }

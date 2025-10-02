@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using ST10398576_Disaster_Alleviation_Foundation.Data;
 using ST10398576_Disaster_Alleviation_Foundation.Models;
 using System;
