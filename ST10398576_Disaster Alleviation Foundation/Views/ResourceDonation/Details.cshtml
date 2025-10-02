@@ -1,0 +1,16 @@
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.ResourceDonation
+@{
+    ViewData["Title"] = "Donation Details";
+}
+<h2>Donation Details</h2>
+<div class="card">
+    <div class="card-body">
+        <p><strong>Donor:</strong> @Model.Donor?.UserName</p>
+        <p><strong>Type:</strong> @Model.ResourceDonationType</p>
+        <p><strong>Amount:</strong> @(Model.ResourceDonationAmount.ToString("C"))</p>
+        <p><strong>Quantity:</strong> @Model.ResourceDonationQuantity</p>
+        <p><strong>Description:</strong> @Model.ResourceItemDescription</p>
+        <p><strong>Date:</strong> @Model.ResourceDonationDate.ToString("g")</p>
+    </div>
+</div>
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>

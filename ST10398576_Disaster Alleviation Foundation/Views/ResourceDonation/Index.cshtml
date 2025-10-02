@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.ResourceDonation>
+@{
+    ViewData["Title"] = "Donations";
+}
+<h2>Resource Donations</h2>
+<a class="btn btn-primary mb-3" asp-action="Create">Add Donation</a>
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr><th>Donor</th><th>Type</th><th>Amount</th><th>Qty</th><th>Date</th><th></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.Donor?.UserName</td>
+                <td>@d.ResourceDonationType</td>
+                <td>@(d.ResourceDonationAmount == 0 ? "-" : d.ResourceDonationAmount.ToString("C"))</td>
+                <td>@d.ResourceDonationQuantity</td>
+                <td>@d.ResourceDonationDate.ToShortDateString()</td>
+                <td><a asp-action="Details" asp-route-id="@d.ResourceDonationID" class="btn btn-sm btn-outline-secondary">Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
