@@ -14,8 +14,8 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Data
         public DbSet<ProjectVolunteer> ProjectVolunteers { get; set; }
         public DbSet<ProjectResource> ProjectResources { get; set; }
         public DbSet<Dispatch> Dispatches { get; set; }
-        public DbSet<ResourceDonation> Donations { get; set; }
-        public DbSet<DisasterIncident> Incidents { get; set; }
+        public DbSet<ResourceDonation> ResourceDonations { get; set; }
+        public DbSet<DisasterIncident> DisasterIncidents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

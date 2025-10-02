@@ -20,7 +20,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Incidents.Add(incident);
+                _context.DisasterIncidents.Add(incident);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("List");
             }
@@ -28,7 +28,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         }
 
         public async Task<IActionResult> List() =>
-            View(await _context.Incidents.Include(i => i.Reporter).ToListAsync());
+            View(await _context.DisasterIncidents.Include(i => i.Reporter).ToListAsync());
         
     }
 }
