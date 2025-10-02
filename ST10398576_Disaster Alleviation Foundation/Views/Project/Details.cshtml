@@ -1,5 +1,12 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Project
 @{
+    ViewData["Title"] = "Project Details";
 }
+<h2>@Model.ProjectName</h2>
+<p><strong>Status:</strong> @Model.Status</p>
+<p><strong>Location:</strong> @Model.Location</p>
+<p><strong>Start:</strong> @Model.StartDate?.ToShortDateString()</p>
+<p><strong>End:</strong> @Model.EndDate?.ToShortDateString()</p>
+<p><strong>Description:</strong></p>
+<p>@Model.Description</p>
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>

@@ -1,5 +1,18 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Project
 @{
+    ViewData["Title"] = "Edit Project";
 }
+<h2>Edit Project</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ProjectID" />
+    <div class="mb-3">
+        <label asp-for="ProjectName" class="form-label"></label>
+        <input asp-for="ProjectName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <button class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>

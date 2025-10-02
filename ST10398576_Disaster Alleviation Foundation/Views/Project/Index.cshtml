@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Project>
 @{
+    ViewData["Title"] = "Projects";
 }
+<h2>Projects</h2>
+<a class="btn btn-success mb-3" asp-action="Create">Create Project</a>
+<table class="table">
+    <thead class="table-light"><tr><th>Name</th><th>Status</th><th>Location</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.ProjectName</td>
+                <td>@p.Status</td>
+                <td>@p.Location</td>
+                <td><a asp-action="Details" asp-route-id="@p.ProjectID" class="btn btn-sm btn-outline-secondary">Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
