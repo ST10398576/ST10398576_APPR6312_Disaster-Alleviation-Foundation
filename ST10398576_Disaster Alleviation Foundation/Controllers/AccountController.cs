@@ -54,7 +54,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
                     // Authenticate with cookie
                     var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.FullName),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Role, user.Role.RoleName)
                 };
 

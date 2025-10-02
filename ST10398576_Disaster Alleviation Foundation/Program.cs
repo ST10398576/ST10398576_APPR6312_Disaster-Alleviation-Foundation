@@ -10,13 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DbContext with Azure connection
 builder.Services.AddDbContext<DRFoundationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
-// Identity setup
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-    });
+// Identity
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<DRFoundationDbContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
 
@@ -34,7 +37,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Identity middlewares
 app.UseAuthentication();
 app.UseAuthorization();
 
