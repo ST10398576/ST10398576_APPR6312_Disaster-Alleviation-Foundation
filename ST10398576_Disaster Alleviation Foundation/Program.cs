@@ -10,10 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DbContext with Azure connection
 builder.Services.AddDbContext<DRFoundationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
+// Identity setup
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false) // disable email confirm for now
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DRFoundationDbContext>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -24,6 +31,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Identity middlewares
 app.UseAuthentication();
 app.UseAuthorization();
 
