@@ -7,14 +7,21 @@ using System;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
-    //[Authorize] // Forces login
+    
     public class ResourceDonationController: Controller
     {
         private readonly DRFoundationDbContext _context;
 
-        public ResourceDonationController(DRFoundationDbContext context)
+        public ResourceDonationController(DRFoundationDbContext context) => _context = context;
+
+        // GET: /ResourceDonation
+        public async Task<IActionResult> Index()
         {
-            _context = context;
+            var list = await _context.ResourceDonations
+                .Include(d => d.Donor)
+                .OrderByDescending(d => d.ResourceDonationDate)
+                .ToListAsync();
+            return View(list);
         }
 
         // GET: /ResourceDonation/Create
@@ -24,34 +31,51 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             return View();
         }
 
+        // POST: /ResourceDonation/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ResourceDonation resourceDonation)
+        public async Task<IActionResult> Create(ResourceDonation model)
         {
-            if (ModelState.IsValid)
-            {
-                _context.ResourceDonations.Add(resourceDonation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Thanks");
-            }
+            if (!ModelState.IsValid) return View(model);
 
-            return View(resourceDonation);
+            _context.ResourceDonations.Add(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Thanks));
         }
 
-        // GET: /ResourceDonation/Thanks
-        public IActionResult Thanks()
-        {
-            return View();
-        }
+        public IActionResult Thanks() => View();
 
-        // GET: /ResourceDonation/Index
-        public async Task<IActionResult> Index()
+
+        // GET: /ResourceDonation/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            var donations = await _context.ResourceDonations
+            var donation = await _context.ResourceDonations
                 .Include(d => d.Donor)
-                .ToListAsync();
+                .FirstOrDefaultAsync(d => d.ResourceDonationID == id);
+            if (donation == null) return NotFound();
+            return View(donation);
+        }
 
-            return View(donations);
+        // GET: /ResourceDonation/Edit/5
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var donation = await _context.ResourceDonations.FindAsync(id);
+            if (donation == null) return NotFound();
+            return View(donation);
+        }
+
+        // POST: /ResourceDonation/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ResourceDonation model)
+        {
+            if (id != model.ResourceDonationID) return BadRequest();
+            if (!ModelState.IsValid) return View(model);
+
+            _context.ResourceDonations.Update(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

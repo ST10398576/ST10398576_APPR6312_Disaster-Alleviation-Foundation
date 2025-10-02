@@ -7,56 +7,59 @@ using System;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
-    [Authorize] // Forces login
     public class VolunteerController : Controller
     {
         private readonly DRFoundationDbContext _context;
 
         public VolunteerController(DRFoundationDbContext context) => _context = context;
 
+        public async Task<IActionResult> Index()
+        {
+            var list = await _context.Volunteers
+                .Include(v => v.User)
+                .ToListAsync();
+            return View(list);
+        }
+
         [HttpGet]
         public IActionResult Register() => View();
 
-        [HttpPost]
-        public async Task<IActionResult> Register(Volunteer volunteer)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Volunteers.Add(volunteer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("BrowseProjects");
-            }
-            return View(volunteer);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> BrowseProjects()
-        {
-            var projects = await _context.Projects.ToListAsync();
-            return View(projects);
-        }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(Volunteer model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            _context.Volunteers.Add(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var vol = await _context.Volunteers
+                .Include(v => v.User)
+                .Include(v => v.Assignments)
+                .ThenInclude(pv => pv.Project)
+                .FirstOrDefaultAsync(v => v.VolunteerID == id);
+            if (vol == null) return NotFound();
+            return View(vol);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Assign(int volunteerId, int projectId)
         {
             var assignment = new ProjectVolunteer
             {
                 VolunteerID = volunteerId,
-                ProjectID = projectId
+                ProjectID = projectId,
+                AssignmentDate = DateTime.Now
             };
             _context.ProjectVolunteers.Add(assignment);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Assignments");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Assignments()
-        {
-            var assignments = await _context.ProjectVolunteers
-                .Include(pv => pv.Project)
-                .Include(pv => pv.Volunteer)
-                .ToListAsync();
-            return View(assignments);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

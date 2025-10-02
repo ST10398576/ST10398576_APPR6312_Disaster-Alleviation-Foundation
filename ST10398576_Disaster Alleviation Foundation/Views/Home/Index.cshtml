@@ -1,47 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Disaster Alleviation Foundation";
-    ViewData["Header"] = "Disaster Alleviation Foundation";
+    ViewData["Title"] = "Home";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome to the Disaster Alleviation Foundation</h1>
-    <p class="lead">Together we can make a difference by helping communities in need.</p>
-</div>
-
-<hr />
-
-<div class="row text-center mt-4">
-    <div class="col-md-3">
-        <a class="btn btn-primary w-100" asp-controller="ResourceDonation" asp-action="Index">
-            💰 Donations
-        </a>
-        <p class="mt-2">View and manage donations</p>
+<center-align>
+    <div class="text-center my-5">
+        <h1 class="display-4">Welcome to the Disaster Alleviation Foundation</h1>
+        <p class="lead">Helping communities rebuild through donations, projects, and volunteers.</p>
     </div>
 
-    <div class="col-md-3">
-        <a class="btn btn-danger w-100" asp-controller="DisasterIncident" asp-action="Index">
-            ⚠️ Disaster Incidents
-        </a>
-        <p class="mt-2">Report and track incidents</p>
+    <div class="row text-center mt-4">
+        <div class="col-md-3 mb-3">
+            <a class="btn btn-primary w-100 py-3" asp-controller="ResourceDonation" asp-action="Index">💰 Donations</a>
+        </div>
     </div>
 
-    <div class="col-md-3">
-        <a class="btn btn-success w-100" asp-controller="Project" asp-action="Index">
-            📂 Projects
-        </a>
-        <p class="mt-2">Manage ongoing relief projects</p>
+    <div class="row text-center mt-4">
+        <div class="col-md-3 mb-3">
+            <a class="btn btn-danger w-100 py-3" asp-controller="DisasterIncident" asp-action="Index">⚠️ Incidents</a>
+        </div>
     </div>
 
-    <div class="col-md-3">
-        <a class="btn btn-info w-100" asp-controller="Volunteer" asp-action="Index">
-            🙋 Volunteers
-        </a>
-        <p class="mt-2">See volunteers and assign them</p>
+    <div class="row text-center mt-4">
+        <div class="col-md-3 mb-3">
+            <a class="btn btn-success w-100 py-3" asp-controller="Project" asp-action="Index">📂 Projects</a>
+        </div>
     </div>
-</div>
 
-<hr />
-
-<div class="text-center mt-4">
-    <p>Need help? <a asp-controller="Home" asp-action="About">Learn more about our mission</a></p>
-</div>
+    <div class="row text-center mt-4">
+        <div class="col-md-3 mb-3">
+            <a class="btn btn-info w-100 py-3" asp-controller="Volunteer" asp-action="Index">🙋 Volunteers</a>
+        </div>
+    </div>
+</center-align>
