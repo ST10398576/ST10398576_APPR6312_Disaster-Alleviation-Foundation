@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
-    [Authorize] // Forces login
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
