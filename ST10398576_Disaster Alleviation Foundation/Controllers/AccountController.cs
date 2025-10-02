@@ -12,29 +12,52 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly DRFoundationDbContext _context;
-        private readonly IPasswordHasher<AppUser> _passwordHasher;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<UserRole> _roleManager;
 
-        public AccountController(DRFoundationDbContext context, IPasswordHasher<AppUser> passwordHasher)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<UserRole> roleManager)
         {
-            _context = context;
-            _passwordHasher = passwordHasher;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
         public IActionResult Register() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Register(AppUser user, string password)
+        public async Task<IActionResult> Register(string fullName, string email, string password, string role)
         {
             if (ModelState.IsValid)
             {
-                user.PasswordHash = _passwordHasher.HashPassword(user, password);
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login");
+                var user = new AppUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FullName = fullName
+                };
+
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    // Ensure role exists
+                    if (!await _roleManager.RoleExistsAsync(role))
+                    {
+                        await _roleManager.CreateAsync(new UserRole { Name = role });
+                    }
+
+                    await _userManager.AddToRoleAsync(user, role);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
-            return View(user);
+            return View();
         }
 
         [HttpGet]
@@ -43,27 +66,10 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var user = await _context.Users.Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.Email == email);
-
-            if (user != null)
+            var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
+            if (result.Succeeded)
             {
-                var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
-                if (result == PasswordVerificationResult.Success)
-                {
-                    // Authenticate with cookie
-                    var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, user.Role.RoleName)
-                };
-
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                    return LocalRedirect("/Home/Index");
-                }
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Invalid login attempt.");
             return View();
@@ -72,7 +78,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
     }

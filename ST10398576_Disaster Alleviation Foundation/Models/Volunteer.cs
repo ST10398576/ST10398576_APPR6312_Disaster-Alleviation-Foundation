@@ -9,6 +9,6 @@
         public string Skills { get; set; } = string.Empty;
         public string Availability { get; set; } = string.Empty;
 
-        public ICollection<ProjectVolunteer>? Assignments { get; set; }
+        public ICollection<ProjectVolunteer> Assignments { get; set; } = new List<ProjectVolunteer>();
     }
 }

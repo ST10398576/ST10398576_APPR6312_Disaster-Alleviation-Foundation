@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ST10398576_Disaster_Alleviation_Foundation.Data;
@@ -10,13 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DbContext with Azure connection
 builder.Services.AddDbContext<DRFoundationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
-// Identity
-builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+// Add ASP.NET Identity with custom AppUser & UserRole
+builder.Services.AddIdentity<AppUser, UserRole>(options =>
 {
     options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
 })
 .AddEntityFrameworkStores<DRFoundationDbContext>()
 .AddDefaultTokenProviders();
@@ -25,7 +24,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Middleware pipeline
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -42,13 +41,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-// Redirect root ("/") to Register page
-app.MapGet("/", context =>
-{
-    context.Response.Redirect("/Identity/Account/Register");
-    return Task.CompletedTask;
-});
+    pattern: "{controller=Account}/{action=Register}/{id?}");
 
 app.Run();
