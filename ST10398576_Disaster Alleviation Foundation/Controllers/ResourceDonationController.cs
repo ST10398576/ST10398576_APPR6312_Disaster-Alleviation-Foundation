@@ -7,7 +7,7 @@ using System;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
-    [Authorize] // Forces login
+    //[Authorize] // Forces login
     public class ResourceDonationController: Controller
     {
         private readonly DRFoundationDbContext _context;
