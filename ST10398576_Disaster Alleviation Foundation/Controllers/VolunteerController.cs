@@ -7,6 +7,7 @@ using System;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
+    [Authorize]
     public class VolunteerController : Controller
     {
         private readonly DRFoundationDbContext _context;
