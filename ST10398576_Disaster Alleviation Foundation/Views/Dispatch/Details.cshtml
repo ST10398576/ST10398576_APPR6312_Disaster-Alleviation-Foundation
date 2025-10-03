@@ -1,0 +1,23 @@
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Dispatch
+
+<h2>Dispatch Details</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Incident</dt>
+    <dd class="col-sm-10">@Model.DisasterIncident?.DisasterIncidentType</dd>
+
+    <dt class="col-sm-2">Resource</dt>
+    <dd class="col-sm-10">@Model.Resource?.ResourceDonationType</dd>
+
+    <dt class="col-sm-2">Quantity</dt>
+    <dd class="col-sm-10">@Model.QuantityDispatched</dd>
+
+    <dt class="col-sm-2">Date</dt>
+    <dd class="col-sm-10">@Model.DispatchDate</dd>
+
+    <dt class="col-sm-2">Notes</dt>
+    <dd class="col-sm-10">@Model.Notes</dd>
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.DispatchID" class="btn btn-primary">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back</a>

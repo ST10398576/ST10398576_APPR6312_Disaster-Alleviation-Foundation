@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Dispatch>
+
+<h2>Dispatches</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Dispatch</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Incident</th>
+            <th>Resource</th>
+            <th>Quantity</th>
+            <th>Dispatch Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DisasterIncident?.DisasterIncidentType</td>
+                <td>@item.Resource?.ResourceDonationType</td>
+                <td>@item.QuantityDispatched</td>
+                <td>@item.DispatchDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.DispatchID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.DispatchID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DispatchID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -35,6 +35,20 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Data
                 .HasOne(pv => pv.Volunteer)
                 .WithMany(v => v.Assignments)
                 .HasForeignKey(pv => pv.VolunteerID);
+
+            // Dispatch → DisasterIncident
+            modelBuilder.Entity<Dispatch>()
+                .HasOne(d => d.DisasterIncident)
+                .WithMany()
+                .HasForeignKey(d => d.DisasterIncidentID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Dispatch → ResourceDonation
+            modelBuilder.Entity<Dispatch>()
+                .HasOne(d => d.Resource)
+                .WithMany()
+                .HasForeignKey(d => d.ResourceDonationID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
