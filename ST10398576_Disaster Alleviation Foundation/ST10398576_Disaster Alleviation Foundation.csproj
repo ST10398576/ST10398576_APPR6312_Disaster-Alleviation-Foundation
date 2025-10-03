@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ST10398576_Disaster_Alleviation_Foundation</RootNamespace>
+    <UserSecretsId>3ce5262e-68d5-4ae6-9593-eb53d1a4c3e6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
