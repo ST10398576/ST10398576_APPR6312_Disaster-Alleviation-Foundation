@@ -11,7 +11,9 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<UserRole> _roleManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<UserRole> roleManager)
+        public AccountController(UserManager<AppUser> userManager,
+                                 SignInManager<AppUser> signInManager,
+                                 RoleManager<UserRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -19,10 +21,10 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register() => View(new ViewModels.RegisterViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel vm)
+        public async Task<IActionResult> Register(ViewModels.RegisterViewModel vm)
         {
             if (!ModelState.IsValid) return View(vm);
 
@@ -40,7 +42,6 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
                 return View(vm);
             }
 
-            // Ensure role exists
             var roleName = string.IsNullOrWhiteSpace(vm.Role) ? "Donor" : vm.Role;
             if (!await _roleManager.RoleExistsAsync(roleName))
                 await _roleManager.CreateAsync(new UserRole { Name = roleName });
@@ -52,17 +53,17 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login() => View();
+        public IActionResult Login() => View(new ViewModels.LoginViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel vm)
+        public async Task<IActionResult> Login(ViewModels.LoginViewModel vm)
         {
             if (!ModelState.IsValid) return View(vm);
 
             var result = await _signInManager.PasswordSignInAsync(vm.Email, vm.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded) return RedirectToAction("Index", "Home");
 
-            ModelState.AddModelError("", "Invalid login attempt");
+            ModelState.AddModelError("", "Invalid login attempt.");
             return View(vm);
         }
 

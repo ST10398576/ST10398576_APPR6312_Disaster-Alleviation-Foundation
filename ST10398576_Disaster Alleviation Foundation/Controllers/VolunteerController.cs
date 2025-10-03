@@ -10,16 +10,20 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
     public class VolunteerController : Controller
     {
         private readonly DRFoundationDbContext _context;
+
         public VolunteerController(DRFoundationDbContext context) => _context = context;
 
         public async Task<IActionResult> Index()
         {
-            var list = await _context.Volunteers.Include(v => v.User).ToListAsync();
+            var list = await _context.Volunteers
+                .Include(v => v.User)
+                .ToListAsync();
+
             return View(list);
         }
 
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register() => View(new Volunteer());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -44,6 +48,9 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
                 .ThenInclude(pv => pv.Project)
                 .FirstOrDefaultAsync(v => v.VolunteerID == id);
             if (vol == null) return NotFound();
+
+            // pass list of available projects for assign dropdown
+            ViewBag.AvailableProjects = await _context.Projects.ToListAsync();
             return View(vol);
         }
 

@@ -19,7 +19,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create() => View(new Project());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -33,8 +33,15 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var project = await _context.Projects.Include(p => p.Volunteers).ThenInclude(pv => pv.Volunteer).FirstOrDefaultAsync(p => p.ProjectID == id);
+            var project = await _context.Projects
+                .Include(p => p.Volunteers)
+                .ThenInclude(pv => pv.Volunteer)
+                .ThenInclude(v => v.User)
+                .FirstOrDefaultAsync(p => p.ProjectID == id);
             if (project == null) return NotFound();
+
+            // pass all volunteers for assign dropdown in view
+            ViewBag.AvailableVolunteers = await _context.Volunteers.Include(v => v.User).ToListAsync();
             return View(project);
         }
     }

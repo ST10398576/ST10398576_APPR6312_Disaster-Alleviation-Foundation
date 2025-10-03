@@ -3,29 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ST10398576_Disaster_Alleviation_Foundation.Data;
 using ST10398576_Disaster_Alleviation_Foundation.Models;
-using System;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
     [Authorize]
-    public class DisasterIncidentController: Controller
+    public class DisasterIncidentController : Controller
     {
         private readonly DRFoundationDbContext _context;
-
         public DisasterIncidentController(DRFoundationDbContext context) => _context = context;
 
-        // GET: /DisasterIncident
         public async Task<IActionResult> Index()
         {
             var list = await _context.DisasterIncidents.Include(i => i.Reporter).OrderByDescending(i => i.ReportDate).ToListAsync();
             return View(list);
         }
 
-        // GET: /DisasterIncident/Report (Create)
         [HttpGet]
-        public IActionResult Report() => View();
+        public IActionResult Report() => View(new DisasterIncident());
 
-        // POST: /DisasterIncident/Report
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Report(DisasterIncident model)
