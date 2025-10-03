@@ -43,5 +43,46 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             if (donation == null) return NotFound();
             return View(donation);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var donation = await _context.ResourceDonations.FindAsync(id);
+            if (donation == null) return NotFound();
+            return View(donation);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ResourceDonation donation)
+        {
+            if (!ModelState.IsValid) return View(donation);
+
+            _context.Update(donation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var donation = await _context.ResourceDonations.FindAsync(id);
+            if (donation == null) return NotFound();
+            return View(donation);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var donation = await _context.ResourceDonations.FindAsync(id);
+            if (donation != null)
+            {
+                _context.ResourceDonations.Remove(donation);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

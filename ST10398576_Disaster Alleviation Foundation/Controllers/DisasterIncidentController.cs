@@ -42,5 +42,46 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             if (incident == null) return NotFound();
             return View(incident);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var incident = await _context.DisasterIncidents.FindAsync(id);
+            if (incident == null) return NotFound();
+            return View(incident);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(DisasterIncident incident)
+        {
+            if (!ModelState.IsValid) return View(incident);
+
+            _context.Update(incident);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var incident = await _context.DisasterIncidents.FindAsync(id);
+            if (incident == null) return NotFound();
+            return View(incident);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var incident = await _context.DisasterIncidents.FindAsync(id);
+            if (incident != null)
+            {
+                _context.DisasterIncidents.Remove(incident);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
