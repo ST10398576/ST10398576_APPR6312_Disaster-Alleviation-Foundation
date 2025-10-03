@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ST10398576_Disaster_Alleviation_Foundation.Data;
 using ST10398576_Disaster_Alleviation_Foundation.Models;
-using System;
-using System.Security.Claims;
+using ST10398576_Disaster_Alleviation_Foundation.ViewModels;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
@@ -27,52 +22,48 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Register(string fullName, string email, string password, string role)
+        public async Task<IActionResult> Register(RegisterViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(vm);
+
+            var user = new AppUser
             {
-                var user = new AppUser
-                {
-                    UserName = email,
-                    Email = email,
-                    FullName = fullName
-                };
+                UserName = vm.Email,
+                Email = vm.Email,
+                FullName = vm.FullName
+            };
 
-                var result = await _userManager.CreateAsync(user, password);
-                if (result.Succeeded)
-                {
-                    // Ensure role exists
-                    if (!await _roleManager.RoleExistsAsync(role))
-                    {
-                        await _roleManager.CreateAsync(new UserRole { Name = role });
-                    }
-
-                    await _userManager.AddToRoleAsync(user, role);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return RedirectToAction("Index", "Home");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+            var result = await _userManager.CreateAsync(user, vm.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var e in result.Errors) ModelState.AddModelError("", e.Description);
+                return View(vm);
             }
-            return View();
+
+            // Ensure role exists
+            var roleName = string.IsNullOrWhiteSpace(vm.Role) ? "Donor" : vm.Role;
+            if (!await _roleManager.RoleExistsAsync(roleName))
+                await _roleManager.CreateAsync(new UserRole { Name = roleName });
+
+            await _userManager.AddToRoleAsync(user, roleName);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(LoginViewModel vm)
         {
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            ModelState.AddModelError("", "Invalid login attempt.");
-            return View();
+            if (!ModelState.IsValid) return View(vm);
+
+            var result = await _signInManager.PasswordSignInAsync(vm.Email, vm.Password, isPersistent: false, lockoutOnFailure: false);
+            if (result.Succeeded) return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError("", "Invalid login attempt");
+            return View(vm);
         }
 
         [HttpPost]
@@ -81,5 +72,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+
+        public IActionResult AccessDenied() => View();
     }
 }

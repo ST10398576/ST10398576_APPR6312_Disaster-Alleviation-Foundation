@@ -17,10 +17,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         // GET: /DisasterIncident
         public async Task<IActionResult> Index()
         {
-            var list = await _context.DisasterIncidents
-                .Include(i => i.Reporter)
-                .OrderByDescending(i => i.ReportDate)
-                .ToListAsync();
+            var list = await _context.DisasterIncidents.Include(i => i.Reporter).OrderByDescending(i => i.ReportDate).ToListAsync();
             return View(list);
         }
 
@@ -35,6 +32,10 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out var uid))
+                model.UserID = uid;
+
             _context.DisasterIncidents.Add(model);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -42,31 +43,9 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var incident = await _context.DisasterIncidents
-                .Include(i => i.Reporter)
-                .FirstOrDefaultAsync(i => i.DisasterIncidentID == id);
+            var incident = await _context.DisasterIncidents.Include(i => i.Reporter).FirstOrDefaultAsync(i => i.DisasterIncidentID == id);
             if (incident == null) return NotFound();
             return View(incident);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var incident = await _context.DisasterIncidents.FindAsync(id);
-            if (incident == null) return NotFound();
-            return View(incident);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DisasterIncident model)
-        {
-            if (id != model.DisasterIncidentID) return BadRequest();
-            if (!ModelState.IsValid) return View(model);
-
-            _context.DisasterIncidents.Update(model);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
     }
 }
