@@ -8,8 +8,6 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Data
     {
         public DRFoundationDbContext(DbContextOptions<DRFoundationDbContext> options) : base(options) { }
         
-        public DbSet<AppUser> Users { get; set; }
-        public DbSet<UserRole> Roles { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectVolunteer> ProjectVolunteers { get; set; }
@@ -22,7 +20,12 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Volunteer ↔ Project many-to-many
+            // Unique email enforced (optional)
+            modelBuilder.Entity<AppUser>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            // Many-to-many mapping: ProjectVolunteer
             modelBuilder.Entity<ProjectVolunteer>()
                 .HasOne(pv => pv.Project)
                 .WithMany(p => p.Volunteers)
