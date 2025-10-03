@@ -1,4 +1,6 @@
-﻿namespace ST10398576_Disaster_Alleviation_Foundation.Models
+﻿using System;
+
+namespace ST10398576_Disaster_Alleviation_Foundation.Models
 {
     public class ProjectVolunteer
     {

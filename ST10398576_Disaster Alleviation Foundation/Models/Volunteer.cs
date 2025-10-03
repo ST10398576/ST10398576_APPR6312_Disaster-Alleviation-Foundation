@@ -1,4 +1,6 @@
-﻿namespace ST10398576_Disaster_Alleviation_Foundation.Models
+﻿using System.Collections.Generic;
+
+namespace ST10398576_Disaster_Alleviation_Foundation.Models
 {
     public class Volunteer
     {
@@ -9,6 +11,7 @@
         public string Skills { get; set; } = string.Empty;
         public string Availability { get; set; } = string.Empty;
 
+        // navigation
         public ICollection<ProjectVolunteer> Assignments { get; set; } = new List<ProjectVolunteer>();
     }
 }
