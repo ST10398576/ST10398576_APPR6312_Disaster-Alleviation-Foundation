@@ -7,9 +7,14 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DbContext with Azure connection
-builder.Services.AddDbContext<DRFoundationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
+var connName = "AzureSqlConnection";
+var connectionString = builder.Configuration.GetConnectionString(connName);
 
-// Add ASP.NET Identity with custom AppUser & UserRole
+builder.Services.AddDbContext<DRFoundationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+
+// Add ASP.NET Identity
 builder.Services.AddIdentity<AppUser, UserRole>(options =>
 {
     options.Password.RequireDigit = true;
@@ -20,9 +25,18 @@ builder.Services.AddIdentity<AppUser, UserRole>(options =>
 .AddEntityFrameworkStores<DRFoundationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.LogoutPath = "/Account/Logout";
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+
 
 // Middleware
 if (!app.Environment.IsDevelopment())
@@ -39,6 +53,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Default route: start the app at the registration page.
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Register}/{id?}");
