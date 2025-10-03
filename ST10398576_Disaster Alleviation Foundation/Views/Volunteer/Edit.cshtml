@@ -1,8 +1,9 @@
 ﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Volunteer
 
-<h2>Register Volunteer</h2>
+<h2>Edit Volunteer</h2>
 
-<form asp-action="Register" method="post">
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="VolunteerID" />
     <div class="form-group">
         <label asp-for="Skills"></label>
         <input asp-for="Skills" class="form-control" />
@@ -11,6 +12,6 @@
         <label asp-for="Availability"></label>
         <input asp-for="Availability" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-success">Register</button>
+    <button type="submit" class="btn btn-success">Update</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
