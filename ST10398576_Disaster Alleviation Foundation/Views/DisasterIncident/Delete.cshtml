@@ -1,0 +1,15 @@
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.DisasterIncident
+
+<h2>Delete Incident</h2>
+
+<p>Are you sure you want to delete this incident?</p>
+
+<div>
+    <strong>@Model.DisasterIncidentType</strong> - @Model.DisasterIncidentLocation
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="DisasterIncidentID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,35 +1,35 @@
 ﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.DisasterIncident>
-@{
-    ViewData["Title"] = "Incidents";
-}
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Disaster Incidents</h2>
-    <a class="btn btn-primary" asp-action="Report">Report Incident</a>
-</div>
+<h2>Disaster Incidents</h2>
 
-<table class="table table-striped">
+<p>
+    <a asp-action="Create" class="btn btn-primary">Report New Incident</a>
+</p>
+
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>Report Date</th>
+            <th>ID</th>
             <th>Type</th>
             <th>Location</th>
-            <th>Reporter</th>
             <th>Status</th>
+            <th>Date</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var i in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@i.ReportDate.ToString("yyyy-MM-dd")</td>
-                <td>@i.DisasterIncidentType</td>
-                <td>@i.DisasterIncidentLocation</td>
-                <td>@i.Reporter?.UserName ?? "Unknown"</td>
-                <td>@i.DisasterIncidentStatus</td>
+                <td>@item.DisasterIncidentID</td>
+                <td>@item.DisasterIncidentType</td>
+                <td>@item.DisasterIncidentLocation</td>
+                <td>@item.DisasterIncidentStatus</td>
+                <td>@item.ReportDate.ToShortDateString()</td>
                 <td>
-                    <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@i.DisasterIncidentID">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.DisasterIncidentID" class="btn btn-warning">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.DisasterIncidentID" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.DisasterIncidentID" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

@@ -7,26 +7,15 @@
 
 <div class="card">
     <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-3">Type</dt>
-            <dd class="col-sm-9">@Model.DisasterIncidentType</dd>
-
-            <dt class="col-sm-3">Location</dt>
-            <dd class="col-sm-9">@Model.DisasterIncidentLocation</dd>
-
-            <dt class="col-sm-3">Description</dt>
-            <dd class="col-sm-9">@Model.DisasterIncidentDescription</dd>
-
-            <dt class="col-sm-3">Reported By</dt>
-            <dd class="col-sm-9">@Model.Reporter?.UserName ?? "Unknown"</dd>
-
-            <dt class="col-sm-3">Date</dt>
-            <dd class="col-sm-9">@Model.ReportDate.ToString("yyyy-MM-dd HH:mm")</dd>
-
-            <dt class="col-sm-3">Status</dt>
-            <dd class="col-sm-9">@Model.DisasterIncidentStatus</dd>
-        </dl>
+        <strong>Type:</strong> @Model.DisasterIncidentType <br />
+        <strong>Location:</strong> @Model.DisasterIncidentLocation <br />
+        <strong>Description:</strong> @Model.DisasterIncidentDescription <br />
+        <strong>Status:</strong> @Model.DisasterIncidentStatus <br />
+        <strong>Reported:</strong> @Model.ReportDate
     </div>
 </div>
 
-<a class="btn btn-secondary mt-3" asp-action="Index">Back</a>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.DisasterIncidentID" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</p>
