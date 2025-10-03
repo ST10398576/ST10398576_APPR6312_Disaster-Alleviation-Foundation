@@ -2,15 +2,34 @@
 @{
     ViewData["Title"] = "Donation Details";
 }
+
 <h2>Donation Details</h2>
+
 <div class="card">
     <div class="card-body">
-        <p><strong>Donor:</strong> @Model.Donor?.UserName</p>
-        <p><strong>Type:</strong> @Model.ResourceDonationType</p>
-        <p><strong>Amount:</strong> @(Model.ResourceDonationAmount.ToString("C"))</p>
-        <p><strong>Quantity:</strong> @Model.ResourceDonationQuantity</p>
-        <p><strong>Description:</strong> @Model.ResourceItemDescription</p>
-        <p><strong>Date:</strong> @Model.ResourceDonationDate.ToString("g")</p>
+        <dl class="row">
+            <dt class="col-sm-3">Donor</dt>
+            <dd class="col-sm-9">@Model.Donor?.UserName ?? "Unknown"</dd>
+
+            <dt class="col-sm-3">Type</dt>
+            <dd class="col-sm-9">@Model.ResourceDonationType</dd>
+
+            <dt class="col-sm-3">Amount</dt>
+            <dd class="col-sm-9">@Model.ResourceDonationAmount</dd>
+
+            <dt class="col-sm-3">Quantity</dt>
+            <dd class="col-sm-9">@Model.ResourceDonationQuantity</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.ResourceItemDescription</dd>
+
+            <dt class="col-sm-3">Payment Reference</dt>
+            <dd class="col-sm-9">@Model.ResourceDonationPaymentReference</dd>
+
+            <dt class="col-sm-3">Date</dt>
+            <dd class="col-sm-9">@Model.ResourceDonationDate.ToString("yyyy-MM-dd HH:mm")</dd>
+        </dl>
     </div>
 </div>
-<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
+
+<a class="btn btn-secondary mt-3" asp-action="Index">Back</a>

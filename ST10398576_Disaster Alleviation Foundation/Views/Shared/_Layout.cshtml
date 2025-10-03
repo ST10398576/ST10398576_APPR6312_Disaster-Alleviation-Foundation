@@ -31,10 +31,10 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <span class="nav-link">Hello, @User.Identity.Name</span>
+                            <span class="nav-link">Hello, @User.Identity?.Name</span>
                         </li>
                         <li class="nav-item">
-                            <form asp-controller="Account" asp-action="Logout" method="post">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-link nav-link">Logout</button>
                             </form>
                         </li>

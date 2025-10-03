@@ -1,0 +1,69 @@
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Volunteer
+@{
+    ViewData["Title"] = "Volunteer Details";
+    var availableProjects = ViewBag.AvailableProjects as IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Project> ?? Enumerable.Empty<ST10398576_Disaster_Alleviation_Foundation.Models.Project>();
+}
+
+<h2>Volunteer Details</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">User</dt>
+            <dd class="col-sm-9">@Model.User?.UserName ?? "Unknown"</dd>
+
+            <dt class="col-sm-3">Skills</dt>
+            <dd class="col-sm-9">@Model.Skills</dd>
+
+            <dt class="col-sm-3">Availability</dt>
+            <dd class="col-sm-9">@Model.Availability</dd>
+        </dl>
+    </div>
+</div>
+
+<h4>Assignments</h4>
+@if (!Model.Assignments.Any())
+{
+    <p>No assignments yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead><tr><th>Project</th><th>Date</th></tr></thead>
+        <tbody>
+            @foreach (var a in Model.Assignments)
+            {
+                <tr>
+                    <td>@a.Project?.ProjectName ?? "Unknown"</td>
+                    <td>@a.AssignmentDate.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h5 class="mt-4">Assign this volunteer to a project</h5>
+@if (!availableProjects.Any())
+{
+    <p class="text-muted">No projects available.</p>
+}
+else
+{
+    <form asp-action="Assign" method="post" class="row gy-2 gx-2 align-items-end">
+        <input type="hidden" name="volunteerId" value="@Model.VolunteerID" />
+        <div class="col-md-6">
+            <label class="form-label">Project</label>
+            <select name="projectId" class="form-control">
+                @foreach (var p in availableProjects)
+                {
+                    <option value="@p.ProjectID">@p.ProjectName</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">Assign</button>
+        </div>
+    </form>
+}
+
+<a class="btn btn-secondary mt-3" asp-action="Index">Back</a>

@@ -2,14 +2,31 @@
 @{
     ViewData["Title"] = "Incident Details";
 }
+
 <h2>Incident Details</h2>
+
 <div class="card">
     <div class="card-body">
-        <p><strong>Type:</strong> @Model.DisasterIncidentType</p>
-        <p><strong>Location:</strong> @Model.DisasterIncidentLocation</p>
-        <p><strong>Description:</strong> @Model.DisasterIncidentDescription</p>
-        <p><strong>Status:</strong> @Model.DisasterIncidentStatus</p>
-        <p><strong>Reported:</strong> @Model.ReportDate.ToString("g")</p>
+        <dl class="row">
+            <dt class="col-sm-3">Type</dt>
+            <dd class="col-sm-9">@Model.DisasterIncidentType</dd>
+
+            <dt class="col-sm-3">Location</dt>
+            <dd class="col-sm-9">@Model.DisasterIncidentLocation</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.DisasterIncidentDescription</dd>
+
+            <dt class="col-sm-3">Reported By</dt>
+            <dd class="col-sm-9">@Model.Reporter?.UserName ?? "Unknown"</dd>
+
+            <dt class="col-sm-3">Date</dt>
+            <dd class="col-sm-9">@Model.ReportDate.ToString("yyyy-MM-dd HH:mm")</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.DisasterIncidentStatus</dd>
+        </dl>
     </div>
 </div>
-<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
+
+<a class="btn btn-secondary mt-3" asp-action="Index">Back</a>

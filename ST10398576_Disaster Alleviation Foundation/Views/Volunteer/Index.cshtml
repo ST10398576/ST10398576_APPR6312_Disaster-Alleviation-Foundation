@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Volunteer>
+@{
+    ViewData["Title"] = "Volunteers";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Volunteers</h2>
+    <a class="btn btn-primary" asp-action="Register">Register as Volunteer</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Skills</th>
+            <th>Availability</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model)
+        {
+            <tr>
+                <td>@(v.User?.UserName ?? "Unknown")</td>
+                <td>@v.Skills</td>
+                <td>@v.Availability</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@v.VolunteerID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

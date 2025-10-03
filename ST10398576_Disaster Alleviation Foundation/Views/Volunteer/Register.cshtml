@@ -1,17 +1,26 @@
-﻿@model Volunteer
+﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Volunteer
+@{
+    ViewData["Title"] = "Volunteer Registration";
+}
 
 <h2>Volunteer Registration</h2>
 
 <form asp-action="Register" method="post">
-    <div class="form-group">
-        <label asp-for="Skills"></label>
-        <input asp-for="Skills" class="form-control" placeholder="Medical, Logistics, etc." />
+    <div class="mb-3">
+        <label class="form-label">Skills</label>
+        <input asp-for="Skills" class="form-control" />
+        <span asp-validation-for="Skills" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Availability"></label>
-        <input asp-for="Availability" class="form-control" placeholder="Weekends, Evenings, etc." />
+    <div class="mb-3">
+        <label class="form-label">Availability</label>
+        <input asp-for="Availability" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-success">Register</button>
+    <button class="btn btn-primary">Register</button>
+    <a class="btn btn-secondary ms-2" asp-action="Index">Back</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

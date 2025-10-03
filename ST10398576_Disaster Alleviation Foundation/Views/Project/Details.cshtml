@@ -1,12 +1,65 @@
 ﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Project
+@using ST10398576_Disaster_Alleviation_Foundation.Models
 @{
     ViewData["Title"] = "Project Details";
+    var availableVolunteers = ViewBag.AvailableVolunteers as IEnumerable<Volunteer> ?? Enumerable.Empty<Volunteer>();
 }
-<h2>@Model.ProjectName</h2>
-<p><strong>Status:</strong> @Model.Status</p>
-<p><strong>Location:</strong> @Model.Location</p>
-<p><strong>Start:</strong> @Model.StartDate?.ToShortDateString()</p>
-<p><strong>End:</strong> @Model.EndDate?.ToShortDateString()</p>
-<p><strong>Description:</strong></p>
-<p>@Model.Description</p>
-<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
+
+<h2>Project Details</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h3>@Model.ProjectName</h3>
+        <p>@Model.Description</p>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+        <p><strong>Dates:</strong> @(Model.StartDate?.ToString("yyyy-MM-dd") ?? "-") - @(Model.EndDate?.ToString("yyyy-MM-dd") ?? "-")</p>
+    </div>
+</div>
+
+<h4>Assigned Volunteers</h4>
+@if (!Model.Volunteers.Any())
+{
+    <p>No volunteers assigned yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead><tr><th>Volunteer</th><th>Assigned On</th></tr></thead>
+        <tbody>
+            @foreach (var pv in Model.Volunteers)
+            {
+                <tr>
+                    <td>@pv.Volunteer?.User?.UserName ?? "Unknown"</td>
+                    <td>@(pv.AssignmentDate.ToString("yyyy-MM-dd"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h5 class="mt-4">Assign a Volunteer</h5>
+@if (!availableVolunteers.Any())
+{
+    <p class="text-muted">No volunteers available to assign.</p>
+}
+else
+{
+    <form asp-controller="Volunteer" asp-action="Assign" method="post" class="row gy-2 gx-2 align-items-end">
+        <input type="hidden" name="projectId" value="@Model.ProjectID" />
+        <div class="col-md-6">
+            <label class="form-label">Volunteer</label>
+            <select name="volunteerId" class="form-control">
+                @foreach (var v in availableVolunteers)
+                {
+                    <option value="@v.VolunteerID">@v.User?.UserName ?? v.VolunteerID.ToString()</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">Assign</button>
+        </div>
+    </form>
+}
+
+<a class="btn btn-secondary mt-3" asp-action="Index">Back</a>
