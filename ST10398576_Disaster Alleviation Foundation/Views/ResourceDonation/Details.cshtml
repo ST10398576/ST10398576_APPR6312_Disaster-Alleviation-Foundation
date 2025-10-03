@@ -1,35 +1,15 @@
 ﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.ResourceDonation
-@{
-    ViewData["Title"] = "Donation Details";
-}
 
 <h2>Donation Details</h2>
 
-<div class="card">
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-3">Donor</dt>
-            <dd class="col-sm-9">@Model.Donor?.UserName ?? "Unknown"</dd>
-
-            <dt class="col-sm-3">Type</dt>
-            <dd class="col-sm-9">@Model.ResourceDonationType</dd>
-
-            <dt class="col-sm-3">Amount</dt>
-            <dd class="col-sm-9">@Model.ResourceDonationAmount</dd>
-
-            <dt class="col-sm-3">Quantity</dt>
-            <dd class="col-sm-9">@Model.ResourceDonationQuantity</dd>
-
-            <dt class="col-sm-3">Description</dt>
-            <dd class="col-sm-9">@Model.ResourceItemDescription</dd>
-
-            <dt class="col-sm-3">Payment Reference</dt>
-            <dd class="col-sm-9">@Model.ResourceDonationPaymentReference</dd>
-
-            <dt class="col-sm-3">Date</dt>
-            <dd class="col-sm-9">@Model.ResourceDonationDate.ToString("yyyy-MM-dd HH:mm")</dd>
-        </dl>
-    </div>
+<div>
+    <strong>Type:</strong> @Model.ResourceDonationType <br />
+    <strong>Amount:</strong> @Model.ResourceDonationAmount <br />
+    <strong>Description:</strong> @Model.ResourceItemDescription <br />
+    <strong>Date:</strong> @Model.ResourceDonationDate
 </div>
 
-<a class="btn btn-secondary mt-3" asp-action="Index">Back</a>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ResourceDonationID" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</p>

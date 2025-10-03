@@ -1,22 +1,25 @@
 ﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.ResourceDonation
-@{
-    ViewData["Title"] = "Edit Donation";
-}
+
 <h2>Edit Donation</h2>
-<form asp-action="Edit" method="post" class="mt-3">
+
+<form asp-action="Edit" method="post">
     <input type="hidden" asp-for="ResourceDonationID" />
-    <div class="mb-3">
-        <label asp-for="ResourceDonationType" class="form-label"></label>
+    <div class="form-group">
+        <label asp-for="ResourceDonationType"></label>
         <input asp-for="ResourceDonationType" class="form-control" />
     </div>
-    <div class="mb-3">
-        <label asp-for="ResourceDonationAmount" class="form-label"></label>
+    <div class="form-group">
+        <label asp-for="ResourceDonationAmount"></label>
         <input asp-for="ResourceDonationAmount" class="form-control" />
     </div>
-    <div class="mb-3">
-        <label asp-for="ResourceDonationQuantity" class="form-label"></label>
+    <div class="form-group">
+        <label asp-for="ResourceItemDescription"></label>
+        <input asp-for="ResourceItemDescription" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ResourceDonationQuantity"></label>
         <input asp-for="ResourceDonationQuantity" class="form-control" />
     </div>
-    <button class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
