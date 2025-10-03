@@ -22,7 +22,7 @@
         {
             <tr>
                 <td>@v.VolunteerID</td>
-                <td>@v.User?.UserName</td>
+                <td>@v.User?.FullName</td>
                 <td>@v.User?.Email</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@v.VolunteerID" class="btn btn-info">Details</a>

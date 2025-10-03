@@ -14,7 +14,8 @@
             <th>ID</th>
             <th>Project Name</th>
             <th>Start Date</th>
-            <th>Status</th>
+            <th>End Date</th>
+            <th>Volunteers</th>
             <th></th>
         </tr>
     </thead>
@@ -24,8 +25,20 @@
             <tr>
                 <td>@p.ProjectID</td>
                 <td>@p.ProjectName</td>
-                <td>@(p.StartDate?.ToString("yyyy-MM-dd") ?? "-") - @(p.EndDate?.ToString("yyyy-MM-dd") ?? "-")</td>
-                <td>@p.Status</td>
+                <td>@p.ProjectDescription</td>
+                <td>@(p.StartDate?.ToShortDateString() ?? "N/A")</td>
+                <td>@(p.EndDate?.ToShortDateString() ?? "N/A")</td>
+                <td>
+                    @if (p.Volunteers != null)
+                    {
+                        foreach (var v in p.Volunteers)
+                        {
+                            <span>@v.Volunteer?.User?.UserName</span>
+                
+                            <br />
+                        }
+                    }
+                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@p.ProjectID" class="btn btn-warning">Edit</a>
                     <a asp-action="Details" asp-route-id="@p.ProjectID" class="btn btn-info">Details</a>

@@ -10,26 +10,29 @@
     <input type="hidden" asp-for="DispatchID" />
 
     <div class="form-group">
-        <label asp-for="ResourceDonationID" class="control-label">Resource</label>
-        <select asp-for="ResourceDonationID" class="form-control" asp-items="ViewBag.Resources"></select>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="DisasterIncidentID" class="control-label">Disaster</label>
-        <select asp-for="DisasterIncidentID" class="form-control" asp-items="ViewBag.Disasters"></select>
+        <label asp-for="DispatchDate" class="control-label"></label>
+        <input asp-for="DispatchDate" class="form-control" type="date" />
     </div>
 
     <div class="form-group">
         <label asp-for="QuantityDispatched" class="control-label"></label>
         <input asp-for="QuantityDispatched" class="form-control" />
-        <span asp-validation-for="QuantityDispatched" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="DispatchDate" class="control-label"></label>
-        <input asp-for="DispatchDate" type="date" class="form-control" />
+        <label>Donation</label>
+        <select asp-for="ResourceDonationID" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Donations, "ResourceDonationID", "Description", Model.ResourceDonationID))">
+        </select>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <div class="form-group">
+        <label>Project</label>
+        <select asp-for="ProjectID" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Projects, "ProjectID", "Name", Model.ProjectID))">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

@@ -9,25 +9,22 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Models
         [Key]
         public int DispatchID { get; set; }
 
-        // Link to the disaster incident this dispatch is for
-        [Required]
-        public int DisasterIncidentID { get; set; }
-        public DisasterIncident? DisasterIncident { get; set; }
+        [Display(Name = "Dispatch Date")]
+        [DataType(DataType.Date)]
+        public DateTime? DispatchDate { get; set; }
 
-        // Link to the donated resource being dispatched
         [Required]
-        public int ResourceDonationID { get; set; }
-        public ResourceDonation? ResourceDonation { get; set; }
-
-        // How many units/items/money dispatched
-        [Required]
+        [Display(Name = "Quantity Dispatched")]
         public int QuantityDispatched { get; set; }
 
-        [Required]
-        public DateTime DispatchDate { get; set; } = DateTime.UtcNow;
+        // Foreign Key → ResourceDonation
+        [Display(Name = "Resource Donation")]
+        public int? ResourceDonationID { get; set; }
+        public ResourceDonation? ResourceDonation { get; set; }
 
-        // Optional notes
-        [MaxLength(500)]
-        public string? Notes { get; set; }
+        // Foreign Key → Project
+        [Display(Name = "Project")]
+        public int? ProjectID { get; set; }
+        public Project? Project { get; set; }
     }
 }

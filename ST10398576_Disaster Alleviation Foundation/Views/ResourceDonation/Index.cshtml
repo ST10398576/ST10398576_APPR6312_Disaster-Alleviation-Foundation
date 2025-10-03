@@ -8,14 +8,17 @@
     <a class="btn btn-primary" asp-action="Create">Add Donation</a>
 </div>
 
-<table class="table table-bordered">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>ID</th>
             <th>Type</th>
-            <th>Amount</th>
             <th>Description</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Donor</th>
             <th>Date</th>
+            <th>Payment Ref</th>
             <th></th>
         </tr>
     </thead>
@@ -25,11 +28,13 @@
             <tr>
                 <td>@item.ResourceDonationID</td>
                 <td>@item.ResourceDonationType</td>
-                <td>@item.ResourceDonationAmount</td>
                 <td>@item.ResourceItemDescription</td>
+                <td>@item.ResourceDonationQuantity</td>
+                <td>@item.ResourceDonationAmount</td>
+                <td>@item.Donor?.FullName (@item.Donor?.Email)</td>
                 <td>@item.ResourceDonationDate.ToShortDateString()</td>
+                <td>@item.ResourceDonationPaymentReference</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ResourceDonationID" class="btn btn-warning">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.ResourceDonationID" class="btn btn-info">Details</a>
                     <a asp-action="Delete" asp-route-id="@item.ResourceDonationID" class="btn btn-danger">Delete</a>
                 </td>

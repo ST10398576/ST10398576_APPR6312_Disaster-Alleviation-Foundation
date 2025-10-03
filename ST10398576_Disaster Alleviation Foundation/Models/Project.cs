@@ -7,9 +7,9 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Models
     {
         public int ProjectID { get; set; }
         public string ProjectName { get; set; } = string.Empty;
-        public string? Description { get; set; }
-        public string? Location { get; set; }
-        public string Status { get; set; } = "Planned";
+        public string? ProjectDescription { get; set; }
+        public string? ProjectLocation { get; set; }
+        public string ProjectStatus { get; set; } = "Planned";
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 

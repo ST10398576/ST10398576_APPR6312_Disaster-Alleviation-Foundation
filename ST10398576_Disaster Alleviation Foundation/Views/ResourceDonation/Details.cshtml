@@ -2,11 +2,16 @@
 
 <h2>Donation Details</h2>
 
-<div>
-    <strong>Type:</strong> @Model.ResourceDonationType <br />
-    <strong>Amount:</strong> @Model.ResourceDonationAmount <br />
-    <strong>Description:</strong> @Model.ResourceItemDescription <br />
-    <strong>Date:</strong> @Model.ResourceDonationDate
+<div class="card">
+    <div class="card-body">
+        <p><strong>Type:</strong> @Model.ResourceDonationType</p>
+        <p><strong>Description:</strong> @Model.ResourceItemDescription</p>
+        <p><strong>Quantity:</strong> @Model.ResourceDonationQuantity</p>
+        <p><strong>Amount:</strong> @Model.ResourceDonationAmount</p>
+        <p><strong>Donor:</strong> @Model.Donor?.UserName (@Model.Donor?.Email)</p>
+        <p><strong>Date:</strong> @Model.ResourceDonationDate.ToShortDateString()</p>
+        <p><strong>Payment Ref:</strong> @Model.ResourceDonationPaymentReference</p>
+    </div>
 </div>
 
 <p>

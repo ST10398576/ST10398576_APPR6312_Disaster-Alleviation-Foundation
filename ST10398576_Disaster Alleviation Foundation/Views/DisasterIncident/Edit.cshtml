@@ -5,19 +5,19 @@
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="DisasterIncidentID" />
     <div class="form-group">
-        <label asp-for="DisasterIncidentType"></label>
+        <label asp-for="DisasterIncidentType">Incident Type</label>
         <input asp-for="DisasterIncidentType" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="DisasterIncidentLocation"></label>
+        <label asp-for="DisasterIncidentLocation">Incident Location</label>
         <input asp-for="DisasterIncidentLocation" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="DisasterIncidentDescription"></label>
+        <label asp-for="DisasterIncidentDescription">Incident Description</label>
         <textarea asp-for="DisasterIncidentDescription" class="form-control"></textarea>
     </div>
     <div class="form-group">
-        <label asp-for="DisasterIncidentStatus"></label>
+        <label asp-for="DisasterIncidentStatus">Incident Status</label>
         <input asp-for="DisasterIncidentStatus" class="form-control" />
     </div>
     <button type="submit" class="btn btn-success">Update</button>

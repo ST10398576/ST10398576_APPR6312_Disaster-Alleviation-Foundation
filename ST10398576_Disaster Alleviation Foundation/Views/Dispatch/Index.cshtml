@@ -13,10 +13,10 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Resource</th>
-            <th>Disaster</th>
-            <th>Quantity Dispatched</th>
             <th>Dispatch Date</th>
+            <th>Quantity Dispatched</th>
+            <th>Donation</th>
+            <th>Project</th>
             <th></th>
         </tr>
     </thead>
@@ -24,10 +24,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.ResourceDonation?.ResourceDonationType</td>
-                <td>@item.DisasterIncident?.DisasterIncidentType</td>
+                <td>@item.DispatchDate?.ToString("yyyy-MM-dd")</td>
                 <td>@item.QuantityDispatched</td>
-                <td>@item.DispatchDate.ToShortDateString()</td>
+                <td>@item.ResourceDonation?.Description</td>
+                <td>@item.Project?.Name</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.DispatchID">Details</a> |
                     <a asp-action="Edit" asp-route-id="@item.DispatchID">Edit</a> |

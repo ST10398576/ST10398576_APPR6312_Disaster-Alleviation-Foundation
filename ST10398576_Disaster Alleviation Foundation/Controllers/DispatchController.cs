@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ST10398576_Disaster_Alleviation_Foundation.Data;
 using ST10398576_Disaster_Alleviation_Foundation.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
@@ -19,12 +20,10 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         // GET: Dispatch
         public async Task<IActionResult> Index()
         {
-            var dispatches = await _context.Dispatches
-                .Include(d => d.ResourceDonationID)
-                .Include(d => d.DisasterIncident)
-                .ToListAsync();
-
-            return View(dispatches);
+            var dispatches = _context.Dispatches
+                .Include(d => d.ResourceDonation)
+                .Include(d => d.Project);
+            return View(await dispatches.ToListAsync());
         }
 
         // GET: Dispatch/Details/5
@@ -34,7 +33,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 
             var dispatch = await _context.Dispatches
                 .Include(d => d.ResourceDonation)
-                .Include(d => d.DisasterIncident)
+                .Include(d => d.Project)
                 .FirstOrDefaultAsync(m => m.DispatchID == id);
 
             if (dispatch == null) return NotFound();
@@ -45,15 +44,15 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         // GET: Dispatch/Create
         public IActionResult Create()
         {
-            ViewBag.Resources = new SelectList(_context.ResourceDonations, "ResourceDonationID", "ResourceDonationType");
-            ViewBag.Disasters = new SelectList(_context.DisasterIncidents, "DisasterIncidentID", "DisasterIncidentType");
+            ViewBag.Donations = _context.ResourceDonations.ToList();
+            ViewBag.Projects = _context.Projects.ToList();
             return View();
         }
 
         // POST: Dispatch/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DispatchID,ResourceDonationID,DisasterIncidentID,QuantityDispatched,DispatchDate")] Dispatch dispatch)
+        public async Task<IActionResult> Create([Bind("DispatchID,DispatchDate,QuantityDispatched,ResourceDonationID,ProjectID")] Dispatch dispatch)
         {
             if (ModelState.IsValid)
             {
@@ -61,9 +60,8 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.Resources = new SelectList(_context.ResourceDonations, "ResourceDonationID", "ResourceDonationType", dispatch.ResourceDonationID);
-            ViewBag.Disasters = new SelectList(_context.DisasterIncidents, "DisasterIncidentID", "DisasterIncidentType", dispatch.DisasterIncidentID);
+            ViewBag.Donations = _context.ResourceDonations.ToList();
+            ViewBag.Projects = _context.Projects.ToList();
             return View(dispatch);
         }
 
@@ -75,16 +73,15 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             var dispatch = await _context.Dispatches.FindAsync(id);
             if (dispatch == null) return NotFound();
 
-            ViewBag.Resources = new SelectList(_context.ResourceDonations, "ResourceDonationID", "ResourceDonationType", dispatch.ResourceDonationID);
-            ViewBag.Disasters = new SelectList(_context.DisasterIncidents, "DisasterIncidentID", "DisasterIncidentType", dispatch.DisasterIncidentID);
-
+            ViewBag.Donations = _context.ResourceDonations.ToList();
+            ViewBag.Projects = _context.Projects.ToList();
             return View(dispatch);
         }
 
         // POST: Dispatch/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DispatchID,ResourceDonationID,DisasterIncidentID,QuantityDispatched,DispatchDate")] Dispatch dispatch)
+        public async Task<IActionResult> Edit(int id, [Bind("DispatchID,DispatchDate,QuantityDispatched,ResourceDonationID,ProjectID")] Dispatch dispatch)
         {
             if (id != dispatch.DispatchID) return NotFound();
 
@@ -102,9 +99,8 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.Resources = new SelectList(_context.ResourceDonations, "ResourceDonationID", "ResourceDonationType", dispatch.ResourceDonationID);
-            ViewBag.Disasters = new SelectList(_context.DisasterIncidents, "DisasterIncidentID", "DisasterIncidentType", dispatch.DisasterIncidentID);
+            ViewBag.Donations = _context.ResourceDonations.ToList();
+            ViewBag.Projects = _context.Projects.ToList();
             return View(dispatch);
         }
 
@@ -115,7 +111,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 
             var dispatch = await _context.Dispatches
                 .Include(d => d.ResourceDonation)
-                .Include(d => d.DisasterIncident)
+                .Include(d => d.Project)
                 .FirstOrDefaultAsync(m => m.DispatchID == id);
 
             if (dispatch == null) return NotFound();
@@ -124,7 +120,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         }
 
         // POST: Dispatch/Delete/5
-        [HttpPost, ActionName("DeleteConfirmed")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -7,11 +7,12 @@
 
 <div class="card">
     <div class="card-body">
-        <strong>Type:</strong> @Model.DisasterIncidentType <br />
-        <strong>Location:</strong> @Model.DisasterIncidentLocation <br />
-        <strong>Description:</strong> @Model.DisasterIncidentDescription <br />
-        <strong>Status:</strong> @Model.DisasterIncidentStatus <br />
-        <strong>Reported:</strong> @Model.ReportDate
+        <h4 class="card-title">@Model.DisasterIncidentType</h4>
+        <p><strong>Location:</strong> @Model.DisasterIncidentLocation</p>
+        <p><strong>Description:</strong> @Model.DisasterIncidentDescription</p>
+        <p><strong>Status:</strong> @Model.DisasterIncidentStatus</p>
+        <p><strong>Reported By:</strong> @Model.Reporter?.UserName (@Model.Reporter?.Email)</p>
+        <p><strong>Date Reported:</strong> @Model.ReportDate.ToShortDateString()</p>
     </div>
 </div>
 

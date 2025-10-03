@@ -5,7 +5,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Models
     public class ResourceDonation
     {
         public int ResourceDonationID { get; set; }
-        public int UserID { get; set; }            // FK to AppUser.Id (int)
+        public int UserID { get; set; }            
         public AppUser? Donor { get; set; }
 
         public decimal ResourceDonationAmount { get; set; }
