@@ -11,10 +11,10 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Location</th>
+            <th>ID</th>
+            <th>Project Name</th>
+            <th>Start Date</th>
             <th>Status</th>
-            <th>Dates</th>
             <th></th>
         </tr>
     </thead>
@@ -22,14 +22,14 @@
         @foreach (var p in Model)
         {
             <tr>
+                <td>@p.ProjectID</td>
                 <td>@p.ProjectName</td>
-                <td>@p.Location</td>
+                <td>@(p.StartDate?.ToString("yyyy-MM-dd") ?? "-") - @(p.EndDate?.ToString("yyyy-MM-dd") ?? "-")</td>
                 <td>@p.Status</td>
                 <td>
-                    @(p.StartDate?.ToString("yyyy-MM-dd") ?? "-") - @(p.EndDate?.ToString("yyyy-MM-dd") ?? "-")
-                </td>
-                <td>
-                    <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@p.ProjectID">Details</a>
+                    <a asp-action="Edit" asp-route-id="@p.ProjectID" class="btn btn-warning">Edit</a>
+                    <a asp-action="Details" asp-route-id="@p.ProjectID" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@p.ProjectID" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

@@ -1,18 +1,29 @@
 ﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Project
-@{
-    ViewData["Title"] = "Edit Project";
-}
+
 <h2>Edit Project</h2>
+
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="ProjectID" />
-    <div class="mb-3">
-        <label asp-for="ProjectName" class="form-label"></label>
+    <div class="form-group">
+        <label asp-for="ProjectName"></label>
         <input asp-for="ProjectName" class="form-control" />
     </div>
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
+    <div class="form-group">
+        <label asp-for="Description"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
-    <button class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    <div class="form-group">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDate"></label>
+        <input asp-for="EndDate" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Status"></label>
+        <input asp-for="Status" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
