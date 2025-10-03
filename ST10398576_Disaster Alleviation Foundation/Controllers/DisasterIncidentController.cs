@@ -19,11 +19,11 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Report() => View(new DisasterIncident());
+        public IActionResult Create() => View(new DisasterIncident());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Report(DisasterIncident model)
+        public async Task<IActionResult> Create(DisasterIncident model)
         {
             if (!ModelState.IsValid) return View(model);
 
