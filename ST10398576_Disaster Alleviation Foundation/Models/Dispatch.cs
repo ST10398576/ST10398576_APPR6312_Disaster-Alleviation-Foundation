@@ -17,7 +17,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Models
         // Link to the donated resource being dispatched
         [Required]
         public int ResourceDonationID { get; set; }
-        public ResourceDonation? Resource { get; set; }
+        public ResourceDonation? ResourceDonation { get; set; }
 
         // How many units/items/money dispatched
         [Required]

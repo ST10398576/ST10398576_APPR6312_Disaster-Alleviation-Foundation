@@ -45,7 +45,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Data
 
             // Dispatch → ResourceDonation
             modelBuilder.Entity<Dispatch>()
-                .HasOne(d => d.Resource)
+                .HasOne(d => d.ResourceDonation)
                 .WithMany()
                 .HasForeignKey(d => d.ResourceDonationID)
                 .OnDelete(DeleteBehavior.Cascade);
