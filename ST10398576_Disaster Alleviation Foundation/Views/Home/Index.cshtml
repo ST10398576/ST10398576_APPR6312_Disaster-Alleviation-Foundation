@@ -1,33 +1,43 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
-<center-align>
-    <div class="text-center my-5">
-        <h1 class="display-4">Welcome to the Disaster Alleviation Foundation</h1>
-        <p class="lead">Helping communities rebuild through donations, projects, and volunteers.</p>
-    </div>
 
-    <div class="row text-center mt-4">
-        <div class="col-md-3 mb-3">
-            <a class="btn btn-primary w-100 py-3" asp-controller="ResourceDonation" asp-action="Index">💰 Donations</a>
-        </div>
-    </div>
+<div class="py-5 text-center">
+    <h1 class="display-5">Disaster Alleviation Foundation</h1>
+    <p class="lead">Coordinate donations, report incidents and manage relief projects.</p>
+</div>
 
-    <div class="row text-center mt-4">
-        <div class="col-md-3 mb-3">
-            <a class="btn btn-danger w-100 py-3" asp-controller="DisasterIncident" asp-action="Index">⚠️ Incidents</a>
-        </div>
+<div class="row g-3">
+    <div class="col-sm-6 col-md-3">
+        <a class="card text-center h-100 text-decoration-none text-dark" asp-controller="ResourceDonation" asp-action="Index">
+            <div class="card-body">
+                <h3>💰 Donations</h3>
+                <p>View and add donations</p>
+            </div>
+        </a>
     </div>
-
-    <div class="row text-center mt-4">
-        <div class="col-md-3 mb-3">
-            <a class="btn btn-success w-100 py-3" asp-controller="Project" asp-action="Index">📂 Projects</a>
-        </div>
+    <div class="col-sm-6 col-md-3">
+        <a class="card text-center h-100 text-decoration-none text-dark" asp-controller="DisasterIncident" asp-action="Index">
+            <div class="card-body">
+                <h3>⚠️ Incidents</h3>
+                <p>Report and track incidents</p>
+            </div>
+        </a>
     </div>
-
-    <div class="row text-center mt-4">
-        <div class="col-md-3 mb-3">
-            <a class="btn btn-info w-100 py-3" asp-controller="Volunteer" asp-action="Index">🙋 Volunteers</a>
-        </div>
+    <div class="col-sm-6 col-md-3">
+        <a class="card text-center h-100 text-decoration-none text-dark" asp-controller="Project" asp-action="Index">
+            <div class="card-body">
+                <h3>📂 Projects</h3>
+                <p>Manage relief projects</p>
+            </div>
+        </a>
     </div>
-</center-align>
+    <div class="col-sm-6 col-md-3">
+        <a class="card text-center h-100 text-decoration-none text-dark" asp-controller="Volunteer" asp-action="Index">
+            <div class="card-body">
+                <h3>🙋 Volunteers</h3>
+                <p>Register and assign volunteers</p>
+            </div>
+        </a>
+    </div>
+</div>
