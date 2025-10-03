@@ -1,17 +1,21 @@
 ﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Dispatch>
 
+@{
+    ViewData["Title"] = "Dispatches";
+}
+
 <h2>Dispatches</h2>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Create New Dispatch</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Dispatch</a>
 </p>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Incident</th>
             <th>Resource</th>
-            <th>Quantity</th>
+            <th>Disaster</th>
+            <th>Quantity Dispatched</th>
             <th>Dispatch Date</th>
             <th></th>
         </tr>
@@ -20,13 +24,13 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.ResourceDonation?.ResourceDonationType</td>
                 <td>@item.DisasterIncident?.DisasterIncidentType</td>
-                <td>@item.Resource?.ResourceDonationType</td>
                 <td>@item.QuantityDispatched</td>
                 <td>@item.DispatchDate.ToShortDateString()</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.DispatchID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.DispatchID">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.DispatchID">Edit</a> |
                     <a asp-action="Delete" asp-route-id="@item.DispatchID">Delete</a>
                 </td>
             </tr>

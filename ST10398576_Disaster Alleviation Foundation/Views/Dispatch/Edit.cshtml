@@ -1,28 +1,35 @@
 ﻿@model ST10398576_Disaster_Alleviation_Foundation.Models.Dispatch
 
-<h2>Create Dispatch</h2>
+@{
+    ViewData["Title"] = "Edit Dispatch";
+}
 
-<form asp-action="Edit" method="post">
+<h2>Edit Dispatch</h2>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="DispatchID" />
+
     <div class="form-group">
-        <label asp-for="DisasterIncidentID"></label>
-        <select asp-for="DisasterIncidentID" asp-items="ViewBag.DisasterIncidentID" class="form-control"></select>
+        <label asp-for="ResourceDonationID" class="control-label">Resource</label>
+        <select asp-for="ResourceDonationID" class="form-control" asp-items="ViewBag.Resources"></select>
     </div>
 
     <div class="form-group">
-        <label asp-for="ResourceDonationID"></label>
-        <select asp-for="ResourceDonationID" asp-items="ViewBag.ResourceDonationID" class="form-control"></select>
+        <label asp-for="DisasterIncidentID" class="control-label">Disaster</label>
+        <select asp-for="DisasterIncidentID" class="form-control" asp-items="ViewBag.Disasters"></select>
     </div>
 
     <div class="form-group">
-        <label asp-for="QuantityDispatched"></label>
+        <label asp-for="QuantityDispatched" class="control-label"></label>
         <input asp-for="QuantityDispatched" class="form-control" />
+        <span asp-validation-for="QuantityDispatched" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Notes"></label>
-        <textarea asp-for="Notes" class="form-control"></textarea>
+        <label asp-for="DispatchDate" class="control-label"></label>
+        <input asp-for="DispatchDate" type="date" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

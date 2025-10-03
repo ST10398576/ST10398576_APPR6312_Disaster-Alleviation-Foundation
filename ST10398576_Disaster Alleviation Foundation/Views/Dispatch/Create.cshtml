@@ -9,9 +9,10 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="ResourceDonationID"></label>
-        <select asp-for="ResourceDonationID" asp-items="ViewBag.ResourceDonationID" class="form-control"></select>
+        <label asp-for="ResourceDonationID">Resource</label>
+        <select asp-for="ResourceDonationID" asp-items="ViewBag.Resources" class="form-control"></select>
     </div>
+
 
     <div class="form-group">
         <label asp-for="QuantityDispatched"></label>
