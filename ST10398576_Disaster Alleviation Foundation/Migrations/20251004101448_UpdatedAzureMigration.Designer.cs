@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ST10398576_Disaster_Alleviation_Foundation.Data;
 
@@ -11,9 +12,11 @@ using ST10398576_Disaster_Alleviation_Foundation.Data;
 namespace ST10398576_Disaster_Alleviation_Foundation.Migrations
 {
     [DbContext(typeof(DRFoundationDbContext))]
-    partial class DRFoundationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004101448_UpdatedAzureMigration")]
+    partial class UpdatedAzureMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
