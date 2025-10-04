@@ -1,0 +1,37 @@
+trigger:
+- main   # Runs whenever code is pushed to main branch
+
+pool:
+  name: Default 
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+# Restore NuGet packages
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '**/*.sln'
+
+# Build the project
+- task: VSBuild@1
+  inputs:
+    solution: '**/*.sln'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)"'
+    platform: 'Any CPU'
+    configuration: '$(buildConfiguration)'
+
+# Run tests (if you have a test project)
+- task: VSTest@2
+  inputs:
+    platform: 'Any CPU'
+    configuration: '$(buildConfiguration)'
+
+# Publish the build artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
+    publishLocation: 'Container'
