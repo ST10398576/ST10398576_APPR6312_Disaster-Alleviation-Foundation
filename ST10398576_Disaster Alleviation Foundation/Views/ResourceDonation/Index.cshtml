@@ -18,7 +18,6 @@
             <th>Amount</th>
             <th>Donor</th>
             <th>Date</th>
-            <th>Payment Ref</th>
             <th></th>
         </tr>
     </thead>
@@ -33,7 +32,6 @@
                 <td>@item.ResourceDonationAmount</td>
                 <td>@item.Donor?.FullName (@item.Donor?.Email)</td>
                 <td>@item.ResourceDonationDate.ToShortDateString()</td>
-                <td>@item.ResourceDonationPaymentReference</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.ResourceDonationID" class="btn btn-info">Details</a>
                     <a asp-action="Delete" asp-route-id="@item.ResourceDonationID" class="btn btn-danger">Delete</a>

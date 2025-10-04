@@ -253,15 +253,11 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DispatchID"));
 
-                    b.Property<int>("DisasterIncidentID")
+                    b.Property<int?>("DisasterIncidentID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DispatchDate")
+                    b.Property<DateTime?>("DispatchDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("ProjectID")
                         .HasColumnType("int");
@@ -269,7 +265,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Migrations
                     b.Property<int>("QuantityDispatched")
                         .HasColumnType("int");
 
-                    b.Property<int>("ResourceDonationID")
+                    b.Property<int?>("ResourceDonationID")
                         .HasColumnType("int");
 
                     b.HasKey("DispatchID");
@@ -291,25 +287,25 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectID"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("ProjectDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectLocation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
+                    b.Property<string>("ProjectStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ProjectID");
 
@@ -541,23 +537,22 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Migrations
                 {
                     b.HasOne("ST10398576_Disaster_Alleviation_Foundation.Models.DisasterIncident", "DisasterIncident")
                         .WithMany()
-                        .HasForeignKey("DisasterIncidentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DisasterIncidentID");
 
-                    b.HasOne("ST10398576_Disaster_Alleviation_Foundation.Models.Project", null)
+                    b.HasOne("ST10398576_Disaster_Alleviation_Foundation.Models.Project", "Project")
                         .WithMany("Dispatches")
                         .HasForeignKey("ProjectID");
 
-                    b.HasOne("ST10398576_Disaster_Alleviation_Foundation.Models.ResourceDonation", "Resource")
+                    b.HasOne("ST10398576_Disaster_Alleviation_Foundation.Models.ResourceDonation", "ResourceDonation")
                         .WithMany()
                         .HasForeignKey("ResourceDonationID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DisasterIncident");
 
-                    b.Navigation("Resource");
+                    b.Navigation("Project");
+
+                    b.Navigation("ResourceDonation");
                 });
 
             modelBuilder.Entity("ST10398576_Disaster_Alleviation_Foundation.Models.ProjectResource", b =>

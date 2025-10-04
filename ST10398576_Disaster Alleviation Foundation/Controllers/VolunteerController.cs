@@ -11,103 +11,100 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
     {
         private readonly DRFoundationDbContext _context;
 
-        public VolunteerController(DRFoundationDbContext context) => _context = context;
+        public VolunteerController(DRFoundationDbContext context)
+        {
+            _context = context;
+        }
 
+        // GET: Volunteer
         public async Task<IActionResult> Index()
         {
-            var list = await _context.Volunteers
+            var volunteers = await _context.Volunteers
                 .Include(v => v.User)
                 .ToListAsync();
 
-            return View(list);
+            return View(volunteers);
         }
 
-        [HttpGet]
-        public IActionResult Register() => View(new Volunteer());
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Volunteer model)
-        {
-            if (!ModelState.IsValid) return View(model);
-
-            var claim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-            if (claim != null && int.TryParse(claim.Value, out var uid))
-                model.UserID = uid;
-
-            _context.Volunteers.Add(model);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
+        // GET: Volunteer/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var vol = await _context.Volunteers
+            var volunteer = await _context.Volunteers
                 .Include(v => v.User)
-                .Include(v => v.Assignments)
-                .ThenInclude(pv => pv.Project)
                 .FirstOrDefaultAsync(v => v.VolunteerID == id);
-            if (vol == null) return NotFound();
 
-            // pass list of available projects for assign dropdown
-            ViewBag.AvailableProjects = await _context.Projects.ToListAsync();
-            return View(vol);
+            if (volunteer == null) return NotFound();
+            return View(volunteer);
         }
 
+        // GET: Volunteer/Create
+        public IActionResult Create() => View();
+
+        // POST: Volunteer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Assign(int volunteerId, int projectId)
-        {
-            var assignment = new ProjectVolunteer
-            {
-                VolunteerID = volunteerId,
-                ProjectID = projectId,
-                AssignmentDate = DateTime.Now
-            };
-            _context.ProjectVolunteers.Add(assignment);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var vol = await _context.Volunteers.FindAsync(id);
-            if (vol == null) return NotFound();
-            return View(vol);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Volunteer volunteer)
+        public async Task<IActionResult> Create(Volunteer volunteer)
         {
             if (!ModelState.IsValid) return View(volunteer);
 
-            _context.Update(volunteer);
+            _context.Volunteers.Add(volunteer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        // GET: Volunteer/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            var vol = await _context.Volunteers.FindAsync(id);
-            if (vol == null) return NotFound();
-            return View(vol);
+            var volunteer = await _context.Volunteers.FindAsync(id);
+            if (volunteer == null) return NotFound();
+            return View(volunteer);
         }
 
+        // POST: Volunteer/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Volunteer volunteer)
+        {
+            if (id != volunteer.VolunteerID) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(volunteer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Volunteers.Any(v => v.VolunteerID == id))
+                        return NotFound();
+                    else throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(volunteer);
+        }
+
+        // GET: Volunteer/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            var volunteer = await _context.Volunteers.FirstOrDefaultAsync(v => v.VolunteerID == id);
+            if (volunteer == null) return NotFound();
+            return View(volunteer);
+        }
+
+        // POST: Volunteer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vol = await _context.Volunteers.FindAsync(id);
-            if (vol != null)
+            var volunteer = await _context.Volunteers.FindAsync(id);
+            if (volunteer != null)
             {
-                _context.Volunteers.Remove(vol);
+                _context.Volunteers.Remove(volunteer);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

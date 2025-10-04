@@ -1,48 +1,41 @@
 ﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Project>
+
 @{
     ViewData["Title"] = "Projects";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Projects</h2>
-    <a class="btn btn-primary" asp-action="Create">Create Project</a>
-</div>
+<h2>Projects</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Project</a>
+</p>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Project Name</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Status</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Volunteers</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var p in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@p.ProjectID</td>
-                <td>@p.ProjectName</td>
-                <td>@p.ProjectDescription</td>
-                <td>@(p.StartDate?.ToShortDateString() ?? "N/A")</td>
-                <td>@(p.EndDate?.ToShortDateString() ?? "N/A")</td>
+                <td>@item.ProjectName</td>
+                <td>@item.ProjectDescription</td>
+                <td>@item.ProjectLocation</td>
+                <td>@item.ProjectStatus</td>
+                <td>@item.StartDate?.ToShortDateString()</td>
+                <td>@item.EndDate?.ToShortDateString()</td>
                 <td>
-                    @if (p.Volunteers != null)
-                    {
-                        foreach (var v in p.Volunteers)
-                        {
-                            <span>@v.Volunteer?.User?.UserName</span>
-                
-                            <br />
-                        }
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@p.ProjectID" class="btn btn-warning">Edit</a>
-                    <a asp-action="Details" asp-route-id="@p.ProjectID" class="btn btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@p.ProjectID" class="btn btn-danger">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.ProjectID" class="btn btn-info btn-sm">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ProjectID" class="btn btn-warning btn-sm">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProjectID" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }

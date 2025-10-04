@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Models
 {
@@ -12,8 +13,5 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Models
         public string ProjectStatus { get; set; } = "Planned";
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-
-        public ICollection<ProjectVolunteer> Volunteers { get; set; } = new List<ProjectVolunteer>();
-        public ICollection<Dispatch> Dispatches { get; set; } = new List<Dispatch>();
     }
 }

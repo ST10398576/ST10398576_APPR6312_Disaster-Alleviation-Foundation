@@ -1,33 +1,37 @@
 ﻿@model IEnumerable<ST10398576_Disaster_Alleviation_Foundation.Models.Volunteer>
+
 @{
     ViewData["Title"] = "Volunteers";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Volunteers</h2>
-    <a class="btn btn-primary" asp-action="Register">Register as Volunteer</a>
-</div>
+<h2>Volunteers</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Register Volunteer</a>
+</p>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Contact</th>
+            <th>Full Name</th>
+            <th>Skills</th>
+            <th>Availability</th>
+            <th>User</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var v in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@v.VolunteerID</td>
-                <td>@v.User?.FullName</td>
-                <td>@v.User?.Email</td>
+                <td>@item.FullName</td>
+                <td>@item.Skills</td>
+                <td>@item.Availability</td>
+                <td>@item.User?.UserName (@item.User?.Email)</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@v.VolunteerID" class="btn btn-info">Details</a>
-                    <a asp-action="Edit" asp-route-id="@v.VolunteerID" class="btn btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@v.VolunteerID" class="btn btn-danger">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.VolunteerID" class="btn btn-info btn-sm">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.VolunteerID" class="btn btn-warning btn-sm">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VolunteerID" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }

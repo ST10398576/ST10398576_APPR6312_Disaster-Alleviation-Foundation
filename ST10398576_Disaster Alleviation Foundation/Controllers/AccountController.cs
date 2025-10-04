@@ -49,7 +49,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             await _userManager.AddToRoleAsync(user, roleName);
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            return RedirectToAction("Index", "Home");
+            return Redirect("https://disasteralleviationfoundation-bteeanhagaf3bsgm.spaincentral-01.azurewebsites.net/Account/Login");
         }
 
         [HttpGet]
@@ -61,7 +61,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             if (!ModelState.IsValid) return View(vm);
 
             var result = await _signInManager.PasswordSignInAsync(vm.Email, vm.Password, isPersistent: false, lockoutOnFailure: false);
-            if (result.Succeeded) return RedirectToAction("Index", "Home");
+            if (result.Succeeded) return Redirect("https://disasteralleviationfoundation-bteeanhagaf3bsgm.spaincentral-01.azurewebsites.net/Home/Index");
 
             ModelState.AddModelError("", "Invalid login attempt.");
             return View(vm);
@@ -71,7 +71,7 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login");
+            return Redirect("https://disasteralleviationfoundation-bteeanhagaf3bsgm.spaincentral-01.azurewebsites.net/Account/Login");
         }
 
         public IActionResult AccessDenied() => View();

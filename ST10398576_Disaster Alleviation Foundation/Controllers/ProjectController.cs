@@ -10,42 +10,43 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
     public class ProjectController : Controller
     {
         private readonly DRFoundationDbContext _context;
-        public ProjectController(DRFoundationDbContext context) => _context = context;
 
-        public async Task<IActionResult> Index()
+        public ProjectController(DRFoundationDbContext context)
         {
-            var list = await _context.Projects.ToListAsync();
-            return View(list);
+            _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Create() => View(new Project());
+        // GET: Project
+        public async Task<IActionResult> Index()
+        {
+            var projects = await _context.Projects.ToListAsync();
+            return View(projects);
+        }
 
+        // GET: Project/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.ProjectID == id);
+            if (project == null) return NotFound();
+            return View(project);
+        }
+
+        // GET: Project/Create
+        public IActionResult Create() => View();
+
+        // POST: Project/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Project model)
+        public async Task<IActionResult> Create(Project project)
         {
-            if (!ModelState.IsValid) return View(model);
-            _context.Projects.Add(model);
+            if (!ModelState.IsValid) return View(project);
+
+            _context.Projects.Add(project);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Details(int id)
-        {
-            var project = await _context.Projects
-                .Include(p => p.Volunteers)
-                .ThenInclude(pv => pv.Volunteer)
-                .ThenInclude(v => v.User)
-                .FirstOrDefaultAsync(p => p.ProjectID == id);
-            if (project == null) return NotFound();
-
-            // pass all volunteers for assign dropdown in view
-            ViewBag.AvailableVolunteers = await _context.Volunteers.Include(v => v.User).ToListAsync();
-            return View(project);
-        }
-
-        [HttpGet]
+        // GET: Project/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var project = await _context.Projects.FindAsync(id);
@@ -53,25 +54,40 @@ namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
             return View(project);
         }
 
+        // POST: Project/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Project project)
+        public async Task<IActionResult> Edit(int id, Project project)
         {
-            if (!ModelState.IsValid) return View(project);
+            if (id != project.ProjectID) return NotFound();
 
-            _context.Update(project);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(project);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Projects.Any(p => p.ProjectID == id))
+                        return NotFound();
+                    else throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(project);
         }
 
-        [HttpGet]
+        // GET: Project/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.ProjectID == id);
             if (project == null) return NotFound();
             return View(project);
         }
 
+        // POST: Project/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
