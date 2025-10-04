@@ -72,7 +72,7 @@ Add your Azure SQL connection string:
 ### Run Migrations
 dotnet ef database update
 
-### Run the App
+### Run the App 
 dotnet run
 
 ## Azure Configuration
