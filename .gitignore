@@ -69,6 +69,37 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+# Visual Studio build folders
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+*.json.cache
+*.log
+
+# Publish output
+**/PubTmp/
+**/PublishProfiles/*.user
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build results
+*.dbmdl
+*.dbproj.schemaview
+
 # Files built by Visual Studio
 *_i.c
 *_p.c
