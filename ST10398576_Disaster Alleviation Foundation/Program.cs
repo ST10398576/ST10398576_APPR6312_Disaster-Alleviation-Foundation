@@ -7,7 +7,7 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DbContext with Azure connection
-var connectionString = builder.Configuration.GetConnectionString("AzureSqlConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DRFoundationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -34,6 +34,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dRFoundationDbContext = scope.ServiceProvider.GetRequiredService<DRFoundationDbContext>();
+    if (dRFoundationDbContext.Database.IsRelational())
+    {
+        dRFoundationDbContext.Database.Migrate();
+    }
+}
 
 // Middleware
 if (!app.Environment.IsDevelopment())
