@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace ST10398576_Disaster_Alleviation_Foundation.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index() => View();

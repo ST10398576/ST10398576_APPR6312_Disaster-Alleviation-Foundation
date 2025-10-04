@@ -1,21 +1,22 @@
 trigger:
-- main   # Runs whenever code is pushed to main branch
+- main  # Run pipeline when code is pushed to the main branch
 
+# Use Microsoft-hosted Windows agent
 pool:
-  name: Default 
+  vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-# Restore NuGet packages
+# Restore dependencies
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '**/*.sln'
 
-# Build the project
+# Build project using Visual Studio/MSBuild
 - task: VSBuild@1
   inputs:
     solution: '**/*.sln'
@@ -23,13 +24,13 @@ steps:
     platform: 'Any CPU'
     configuration: '$(buildConfiguration)'
 
-# Run tests (if you have a test project)
+# Optional: Run tests
 - task: VSTest@2
   inputs:
     platform: 'Any CPU'
     configuration: '$(buildConfiguration)'
 
-# Publish the build artifacts
+# Publish build artifacts
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)'
