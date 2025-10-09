@@ -4,11 +4,10 @@
     ViewData["Title"] = "Volunteers";
 }
 
-<h2>Volunteers</h2>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">Register Volunteer</a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Volunteers</h2>
+    <a asp-action="Register" class="btn btn-primary">Register Volunteer</a>
+</div>
 
 <table class="table table-striped">
     <thead>
@@ -24,13 +23,12 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.FullName</td>
+                <td>@item.User?.FullName</td>
                 <td>@item.Skills</td>
                 <td>@item.Availability</td>
                 <td>@item.User?.UserName (@item.User?.Email)</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.VolunteerID" class="btn btn-info btn-sm">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.VolunteerID" class="btn btn-warning btn-sm">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.VolunteerID" class="btn btn-info btn-sm">Details</a>
                     <a asp-action="Delete" asp-route-id="@item.VolunteerID" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>

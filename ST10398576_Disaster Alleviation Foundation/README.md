@@ -1,6 +1,8 @@
 ﻿# 🌍 Disaster Alleviation Foundation Web Application  
 ### A .NET 8.0 MVC Web Application  
 
+## Link to access site: https://st10398576-disasteralleviationfoundation-egbef2hfajc3frad.brazilsouth-01.azurewebsites.net/
+
 This project was developed as part of the **Application Development Practice (ADP470S)** and **Application Development Theory (APT470S)** modules.  
 It provides a comprehensive system for managing **disaster incidents, resource donations, and volunteers**, with full authentication and Azure cloud integration.
 
@@ -72,7 +74,7 @@ Add your Azure SQL connection string:
 ### Run Migrations
 dotnet ef database update
 
-### Run the App 
+### Run the App
 dotnet run
 
 ## Azure Configuration

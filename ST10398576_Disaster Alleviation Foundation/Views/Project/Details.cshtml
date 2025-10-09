@@ -2,12 +2,14 @@
 
 <h2>Project Details</h2>
 
-<div>
-    <strong>Name:</strong> @Model.ProjectName <br />
-    <strong>Description:</strong> @Model.ProjectDescription <br />
-    <strong>Start:</strong> @(Model.StartDate.HasValue? Model.StartDate.Value.ToShortDateString() : "N/A")<br />
-    <strong>End:</strong> @(Model.EndDate.HasValue? Model.EndDate.Value.ToShortDateString() : "N/A") <br />
-    <strong>Status:</strong> @Model.ProjectStatus
+<div class="card">
+    <div class="card-body">
+        <strong>Name:</strong> @Model.ProjectName <br />
+        <strong>Description:</strong> @Model.ProjectDescription <br />
+        <strong>Start:</strong> @(Model.StartDate.HasValue? Model.StartDate.Value.ToShortDateString() : "N/A")<br />
+        <strong>End:</strong> @(Model.EndDate.HasValue? Model.EndDate.Value.ToShortDateString() : "N/A") <br />
+        <strong>Status:</strong> @Model.ProjectStatus
+    </div>
 </div>
 
 <p>
