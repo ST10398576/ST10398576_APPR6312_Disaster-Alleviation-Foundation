@@ -20,25 +20,10 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore ./ST10398576_Disaster Alleviation Foundation.csproj
+      run: dotnet restore .
 
     - name: Build
-      run: dotnet build ./ST10398576_Disaster Alleviation Foundation.csproj --configuration Release --no-restore
+      run: dotnet build . --configuration Release --no-restore
 
     - name: Run tests
       run: dotnet test --no-build --verbosity normal
-
-  # Uncomment this if you want Azure deployment directly from GitHub Actions
-  # deploy:
-  #   runs-on: windows-latest
-  #   needs: build
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Publish
-  #     run: dotnet publish ./ST10398576_Disaster Alleviation Foundation.csproj -c Release -o ./publish
-  #   - name: Deploy to Azure WebApp
-  #     uses: azure/webapps-deploy@v2
-  #     with:
-  #       app-name: YOUR_AZURE_WEBAPP_NAME
-  #       publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-  #       package: ./publish
