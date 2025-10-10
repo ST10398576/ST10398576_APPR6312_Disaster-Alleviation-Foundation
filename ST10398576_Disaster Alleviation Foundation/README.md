@@ -3,87 +3,147 @@
 
 ## Link to access site: https://st10398576-disasteralleviationfoundation-egbef2hfajc3frad.brazilsouth-01.azurewebsites.net/
 
-This project was developed as part of the **Application Development Practice (ADP470S)** and **Application Development Theory (APT470S)** modules.  
-It provides a comprehensive system for managing **disaster incidents, resource donations, and volunteers**, with full authentication and Azure cloud integration.
 
-## 🧭 Overview
+#Images in the GitHub - GitHub Repository
 
-The **Disaster Alleviation Foundation (DAF)** web application helps streamline the process of responding to disaster situations by managing:
-- **Incident reporting**  
-- **Resource donations**  
-- **Volunteer registration and management**  
 
-All users are authenticated via a secure login system. Once logged in, they can view and interact with the relevant pages according to their role.
+Source Code
+## Source code GitHub link: https://github.com/ST10398576/ST10398576_APPR6312_Disaster-Alleviation-Foundation/
 
----
+## Azure DevOps Link: 
+https://dev.azure.com/ST10398576/Gift%20of%20the%20Givers%20Foundation/_git/Azure_DisasterAlleviationFoundation
 
-## ⚙️ Features
+Git Repository
+Azure DevOps Link: 
+https://dev.azure.com/ST10398576/Gift%20of%20the%20Givers%20Foundation/_git/Azure_DisasterAlleviationFoundation
+ 
 
-| Feature | Description |
-|----------|-------------|
-| 👤 **User Authentication** | Secure registration, login, and logout using ASP.NET Identity. |
-| 🌪️ **Disaster Incident Reporting** | Users can report new incidents, including type, location, and description. |
-| 🎁 **Resource Donations** | Users can donate resources or funds and track their donations. |
-| 💪 **Volunteer Management** | Volunteers can register, manage availability, and view assigned tasks. |
-| ☁️ **Azure Integration** | Application hosted on **Azure App Service** and connected to **Azure SQL Database**. |
-| 🔄 **CI/CD Automation** | Automated build and deployment using **Azure DevOps Pipelines**. |
+Screens
+Register Screen – Starter Screen(Before Login)
+ 
+Takes you to the login page if your account is successfully registered
 
----
 
-## 🛠️ Technologies Used
+Login Screen
+ <img width="921" height="464" alt="image" src="https://github.com/user-attachments/assets/f02d35b5-88b0-4b34-9fe1-bbc8424f4a53" />
 
-| Category | Technology |
-|-----------|-------------|
-| **Framework** | ASP.NET Core MVC (.NET 8.0) |
-| **Frontend** | Razor Pages, Bootstrap 5, HTML5, CSS3 |
-| **Backend** | C#, Entity Framework Core |
-| **Database** | Azure SQL Database |
-| **Authentication** | ASP.NET Identity |
-| **DevOps** | Azure Repos, Azure Pipelines |
-| **Hosting** | Azure App Service |
+Takes you to the home page if your account is successfully registered
+ 
 
----
+Home Screen – Starter Screen(After login, remembers if user has signed in)
+ 
+Remembers Users Email as their username in the top-right corner. Updates the Navigation Bar to show the tabs.
 
-## 🧩 System Architecture
+Donations Screen
+Donation Page
+ 
+ 
 
-```text
-User → Web Application (ASP.NET Core MVC)
-         ↓
-    Entity Framework Core (ORM)
-         ↓
-      Azure SQL Database
-         ↓
-    Azure App Service (Hosting)
-```
+Donation Creation Page
+ 
+ 
+ 
+ 
 
-##Setup Instructions (Local Development)
-### Clone the Repository
-git clone https://dev.azure.com/ST10398576/Gift%20of%20the%20Givers%20Foundation/_git/Azure_DisasterAlleviationFoundation
+Donation Details Page
+ 
+ 
 
-### Open in Visual Studio
+Donation Edit Page
+ 
+ 
+ 
 
-Open the .sln file in Visual Studio 2022 or later.
 
-### Update appsettings.json
+Donation Deletion Page
+ 
+ 
+ 
+Incidents Screen
+Incidents Page
+ 
+ 
 
-Add your Azure SQL connection string:
-"ConnectionStrings": {
-  "DefaultConnection": "Server=tcp:dafdb.database.windows.net,1433;Initial Catalog=DisasterAlleviationFoundation;Persist Security Info=False;User ID=[Username];Password=[Password];MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-}
+Incidents Creation Page
+   
 
-### Run Migrations
-dotnet ef database update
 
-### Run the App
-dotnet run
+Incidents Details Page
+ 
+ 
 
-## Azure Configuration
-Resource	          Name	                            Purpose
-Web App	            DisasterAlleviationFoundation	    Hosts the web application
-SQL Server	        dafdb	                            Manages the database
-Database	          DisasterAlleviationFoundation	    Stores users, incidents, donations, and volunteer info
-Service Connector	  Azure SQL Connection	            Links the app to the database securely
+Incidents Edit Page
+     
+ 
 
+Incidents Deletion Page
+ 
+ 
+
+ 
+Projects Screen
+Projects Page
+ 
+ 
+
+Projects Creation Page
+ 
+ 
+ 
+
+
+Projects Details Page
+ 
+
+Projects Edit Page
+ 
+ 
+ 
+
+Projects Deletion Page
+ 
+ 
+
+ 
+Volunteers Screen
+Volunteers Page
+ 
+
+Volunteers Creation Page
+
+
+Volunteers Details Page
+ 
+
+Volunteers Edit Page
+ 
+ 
+ 
+
+Volunteers Deletion Page
+ 
+ 
+
+ 
+
+Logout function
+ 
+ 
+Clicking the Logout button on the top right signs the user out and sends them to the Login Screen once more and resets the Navigation bar.
+ 
+
+
+Build Pipelines
+ 
+
+
+
+ 
+
+Bibliography
+
+https://github.com/ST10398576/ST10398576_APPR6312_Disaster-Alleviation-Foundation/
+https://dev.azure.com/ST10398576/Gift%20of%20the%20Givers%20Foundation/_git/Azure_DisasterAlleviationFoundation
 
 
 
