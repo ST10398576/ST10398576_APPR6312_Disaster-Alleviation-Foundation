@@ -12,7 +12,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<DRFoundationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-
 // Add ASP.NET Identity
 builder.Services.AddIdentity<AppUser, UserRole>(options =>
 {
@@ -38,9 +37,20 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dRFoundationDbContext = scope.ServiceProvider.GetRequiredService<DRFoundationDbContext>();
-    if (dRFoundationDbContext.Database.IsRelational())
+    var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+    
+    if (!env.EnvironmentName.Contains("Testing"))
     {
-        dRFoundationDbContext.Database.Migrate();
+        if (dRFoundationDbContext.Database.IsRelational())
+        {
+            dRFoundationDbContext.Database.Migrate();
+        }
+    }
+    else
+    {
+        // Prevents EF from running migrations again in tests
+        dRFoundationDbContext.Database.EnsureCreated();
     }
 }
 
@@ -65,3 +75,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+ 
+public partial class Program { } // added this for testing compatibility
