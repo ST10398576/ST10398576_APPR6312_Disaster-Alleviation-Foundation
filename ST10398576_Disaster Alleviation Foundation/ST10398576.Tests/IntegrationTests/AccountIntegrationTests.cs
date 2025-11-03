@@ -1,39 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ST10398576_Disaster_Alleviation_Foundation.Models;
+using Xunit;
 
-namespace GiftOfTheGivers.Tests.IntegrationTests
+namespace ST10398576.Tests.IntegrationTests
 {
-    [TestClass]
-    public class AccountIntegrationTests
+    public class AccountIntegrationTests : IClassFixture<TestWebAppFactory>
     {
-        private static TestWebAppFactory? _factory;
-        private static HttpClient? _client;
+        private readonly HttpClient _client;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public AccountIntegrationTests(TestWebAppFactory factory)
         {
-            _factory = new TestWebAppFactory();
-            _client = _factory.CreateClient(new WebApplicationFactoryClientOptions
+            _client = factory.CreateClient(new Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false // We test redirects manually
             });
         }
 
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            _client?.Dispose();
-            _factory?.Dispose();
-        }
-
-        [TestMethod]
+        [Fact]
         public async Task Register_Login_Flow_Works()
         {
             // Arrange: valid registration form data
@@ -47,7 +34,7 @@ namespace GiftOfTheGivers.Tests.IntegrationTests
             });
 
             // Act 1: POST to /Account/Register
-            var registerResponse = await _client!.PostAsync("/Account/Register", formData);
+            var registerResponse = await _client.PostAsync("/Account/Register", formData);
 
             // Assert registration redirects (302)
             registerResponse.StatusCode.Should().Be(HttpStatusCode.Found);

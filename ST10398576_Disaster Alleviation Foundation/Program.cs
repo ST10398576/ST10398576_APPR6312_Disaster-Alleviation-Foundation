@@ -3,14 +3,37 @@ using Microsoft.EntityFrameworkCore;
 using ST10398576_Disaster_Alleviation_Foundation.Data;
 using ST10398576_Disaster_Alleviation_Foundation.Models;
 using System;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add DbContext with Azure connection
+// determine environment
+var isTesting = builder.Environment.IsEnvironment("Testing");
+// get configured connection string (may be null/empty)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<DRFoundationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+if (isTesting)
+{
+    // If no connection string provided for Testing, use a file-based SQLite DB in temp
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        var dbPath = Path.Combine(Path.GetTempPath(), "testing_e2e.db");
+        connectionString = $"Data Source={dbPath}";
+    }
+
+    builder.Services.AddDbContext<DRFoundationDbContext>(options =>
+        options.UseSqlite(connectionString));
+}
+else
+{
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        throw new InvalidOperationException("DefaultConnection is not configured. Set connection string in appsettings.json");
+    }
+
+    builder.Services.AddDbContext<DRFoundationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 // Add ASP.NET Identity
 builder.Services.AddIdentity<AppUser, UserRole>(options =>
@@ -39,7 +62,6 @@ using (var scope = app.Services.CreateScope())
     var dRFoundationDbContext = scope.ServiceProvider.GetRequiredService<DRFoundationDbContext>();
     var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-    
     if (!env.EnvironmentName.Contains("Testing"))
     {
         if (dRFoundationDbContext.Database.IsRelational())
@@ -76,5 +98,4 @@ app.MapControllerRoute(
 
 app.Run();
 
- 
 public partial class Program { } // added this for testing compatibility

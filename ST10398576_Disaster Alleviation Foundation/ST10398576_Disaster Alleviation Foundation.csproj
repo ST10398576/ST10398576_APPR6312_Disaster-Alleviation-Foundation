@@ -25,4 +25,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
+  <!-- Exclude nested test folder so SDK-style globbing doesn't compile test sources into the web app -->
+  <ItemGroup>
+    <Compile Remove="ST10398576.Tests\**\*.cs" />
+    <None Remove="ST10398576.Tests\**\*" />
+    <Content Remove="ST10398576.Tests\**\*" />
+  </ItemGroup>
+
 </Project>

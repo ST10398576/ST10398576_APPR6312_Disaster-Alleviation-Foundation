@@ -7,7 +7,7 @@ using ST10398576_Disaster_Alleviation_Foundation.Data;
 using System;
 using System.Linq;
 
-namespace GiftOfTheGivers.Tests.IntegrationTests
+namespace ST10398576.Tests.IntegrationTests
 {
     public class TestWebAppFactory : WebApplicationFactory<Program>, IDisposable
     {

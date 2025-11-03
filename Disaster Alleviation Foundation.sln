@@ -5,14 +5,7 @@ VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ST10398576_Disaster Alleviation Foundation", "ST10398576_Disaster Alleviation Foundation\ST10398576_Disaster Alleviation Foundation.csproj", "{76147C61-4AEC-4B37-8323-55575D98EA3B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ST10398576.Tests", "tests\ST10398576.Tests\ST10398576.Tests.csproj", "{36371C05-6FEF-41E8-9D6C-35E55C9F23BB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "performance", "performance", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		..\apache-jmeter-5.6.3\bin\My ones\Load Test Plan.jmx = ..\apache-jmeter-5.6.3\bin\My ones\Load Test Plan.jmx
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftOfTheGivers.Tests", "tests\ST10398576.Tests\GiftOfTheGivers.Tests.csproj", "{36371C05-6FEF-41E8-9D6C-35E55C9F23BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +44,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{36371C05-6FEF-41E8-9D6C-35E55C9F23BB} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
-		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {881A4350-DC55-42AC-8C00-77E45801ABC1}

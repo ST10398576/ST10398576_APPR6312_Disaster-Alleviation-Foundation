@@ -2,7 +2,7 @@
 using ST10398576_Disaster_Alleviation_Foundation.Data;
 using System;
 
-namespace GiftOfTheGivers.Tests.TestHelpers
+namespace ST10398576.Tests.TestHelpers
 {
     public static class InMemoryDbContextFactory
     {

@@ -1,38 +1,73 @@
-trigger:
-- main  # Run pipeline when code is pushed to the main branch
+﻿trigger:
+- master
 
-# Use Microsoft-hosted Windows agent
 pool:
   vmImage: 'windows-latest'
 
 variables:
+  solution: '**/*.sln'
   buildConfiguration: 'Release'
+  artifactName: 'WebApp'
+  webProject: 'ST10398576_Disaster Alleviation Foundation\\ST10398576_Disaster Alleviation Foundation.csproj'
+  azureSubscription: 'azureServiceConnection'
+  webAppName: 'ST10398576-DisasterAlleviationFoundation'
 
 steps:
-# Restore dependencies
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: UseDotNet@2
+  displayName: 'Install .NET SDK'
   inputs:
-    restoreSolution: '**/*.sln'
+    packageType: 'sdk'
+    version: '8.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
-# Build project using Visual Studio/MSBuild
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
+  displayName: 'Restore NuGet packages'
   inputs:
-    solution: '**/*.sln'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)"'
-    platform: 'Any CPU'
-    configuration: '$(buildConfiguration)'
+    command: 'restore'
+    projects: '$(Build.SourcesDirectory)/**/*.csproj'
 
-# Optional: Run tests
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'Build solution'
   inputs:
-    platform: 'Any CPU'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration)'
 
-# Publish build artifacts
+- task: DotNetCoreCLI@2
+  displayName: 'Run tests (exclude UI)'
+  inputs:
+    command: 'test'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration) --no-build --filter "TestCategory!=UI"'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish web project'
+  inputs:
+    command: 'publish'
+    projects: '$(webProject)'
+    arguments: '--configuration $(buildConfiguration) --output "$(Build.ArtifactStagingDirectory)\\publish"'
+
+- task: ArchiveFiles@2
+  displayName: 'Create zip from published output'
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)\\publish'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)\\WebApp.zip'
+    replaceExistingArchive: true
+
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish artifact: WebApp.zip'
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'drop'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(artifactName)'
     publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  displayName: 'Deploy Web App to Azure'
+  inputs:
+    azureSubscription: '$(azureSubscription)'
+    appType: 'webApp'
+    appName: '$(webAppName)'
+    package: '$(Build.ArtifactStagingDirectory)\\WebApp.zip'
+  condition: succeeded()
