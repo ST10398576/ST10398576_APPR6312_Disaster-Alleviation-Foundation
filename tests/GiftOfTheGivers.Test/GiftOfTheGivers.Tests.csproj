@@ -1,12 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-	<AssemblyName>GiftOfTheGivers.Tests</AssemblyName>
-	<RootNamespace>GiftOfTheGivers.Tests</RootNamespace>
+
+    <!-- new project identity -->
+    <AssemblyName>GiftOfTheGivers.Tests</AssemblyName>
+    <RootNamespace>GiftOfTheGivers.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,12 +35,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ST10398576_Disaster Alleviation Foundation\ST10398576_Disaster Alleviation Foundation.csproj" />
   </ItemGroup>
-
-	<!-- Exclude nested test folder so SDK-style globbing doesn't compile test sources into the web app -->
-	<ItemGroup>
-		<Compile Remove="ST10398576.Tests\**\*.cs" />
-		<None Remove="ST10398576.Tests\**\*" />
-		<Content Remove="ST10398576.Tests\**\*" />
-	</ItemGroup>
 
 </Project>
